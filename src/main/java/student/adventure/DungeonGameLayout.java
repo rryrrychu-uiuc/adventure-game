@@ -34,7 +34,7 @@ public class DungeonGameLayout {
         return searchForTargetRoom(startingRoomName);
     }
 
-    private Room searchForTargetRoom(String name) {
+    public Room searchForTargetRoom(String name) {
         for (Room targetRoom : rooms) {
             if (targetRoom.getRoomName().equals(name)) {
                 return targetRoom;
