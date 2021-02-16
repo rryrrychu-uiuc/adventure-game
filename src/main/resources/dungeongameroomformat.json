@@ -4,276 +4,315 @@
   "rooms": [
     {
       "name": "Candle Room",
-      "description" : "You entered a small room lit only by a small candle hanging from the ceiling. You can see a single door to your right with a small chair in the dark corner of the room.",
-      "directions" : [
+      "description": "You entered a small room lit only by a small candle hanging from the ceiling. You can see a single door to your right with a small chair in the dark corner of the room.",
+      "directions": [
         {
-          "directionName" : "North",
-          "roomName" : "Wet Room"
+          "directionName": "north",
+          "roomName": "Wet Room"
         },
         {
-          "directionName" : "East",
-          "roomName" : "Three-door Room"
+          "directionName": "east",
+          "roomName": "Three-door Room"
         }
       ],
-      "items" : [
+      "items": [
         {
-          "name" : "ring",
-          "description": "You pick up the golden ring and pocket it."
+          "name": "silver ring",
+          "description": "You pick up the silver ring and pocket it."
         },
         {
-          "name" : "small red pebble",
+          "name": "small red pebble",
           "description": "You pick up the small red pebble and pocket it."
         }
       ],
-      "willLockWhenEntered" : false
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
     },
     {
-      "name" : "Three-door Room",
+      "name": "Three-door Room",
       "description": "You fell down a deep hole and are now stuck in a room with nothing but the hole in the room which you fell in from and three dungeon doors. You have no choice but to go through one of the doors and try to find your way out.",
-      "directions" : [
+      "directions": [
         {
-          "directionName" : "North",
-          "roomName" : "Empty Room"
+          "directionName": "north",
+          "roomName": "Empty Room"
         },
         {
-          "directionName" : "East",
-          "roomName" : "Dead-end Warning Room"
+          "directionName": "east",
+          "roomName": "Dead-end Warning Room"
         },
         {
-          "directionName" : "West",
-          "roomName" : "Candle Room"
+          "directionName": "west",
+          "roomName": "Candle Room"
         }
       ],
-      "items" : [],
-      "willLockWhenEntered" : false
+      "items": [],
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
     },
     {
-      "name" : "Dead-end Warning Room",
+      "name": "Dead-end Warning Room",
       "description": "You enter a room that looks like it was an office of some sort. The walls are covered with drawings and the table near the door has many burned papers on it. There's some random items lying around the room.",
-      "directions" : [
+      "directions": [
         {
-          "directionName" : "North",
-          "roomName" : "Dim Room"
+          "directionName": "north",
+          "roomName": "Dim Room"
         },
         {
-          "directionName" : "West",
-          "roomName" : "Three-door Room"
+          "directionName": "west",
+          "roomName": "Three-door Room"
         }
       ],
-      "items" : [
+      "items": [
         {
-          "name" : "burned note",
+          "name": "burned note",
           "description": "You pick up a half-burned note with the following message: 'Traveler: Ahead is a one-way path with a dead end. Procced wit-.'"
         },
         {
-          "name" : "small green pebble",
+          "name": "small green pebble",
           "description": "You pick up the small green pebble and pocket it."
         },
         {
-          "name" : "breadcrumb",
+          "name": "breadcrumb",
           "description": "You sweep the breadcrumbs into your pocket. Why? I have no idea."
         },
         {
-          "name" : "dusty pen",
+          "name": "dusty pen",
           "description": "Why would you pick this up? Reluctantly puts it away."
-        }
-      ],
-      "willLockWhenEntered" : false
-    },
-    {
-      "name" : "Wet Room",
-      "description": "You slowly enter and hear the sound of a slow dripping water. A light is coming through the door on the right and you see something shiny in the puddle of water on the floor.",
-      "directions" : [
-        {
-          "directionName" : "East",
-          "roomName" : "Empty Room"
         },
         {
-          "directionName" : "South",
-          "roomName" : "Candle Room"
+          "name": "guard key",
+          "description": "This looks like a key to a prison cell."
         }
       ],
-      "items" : [
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
+    },
+    {
+      "name": "Wet Room",
+      "description": "You slowly enter and hear the sound of a slow dripping water. A light is coming through the door on the right and you see something shiny in the puddle of water on the floor.",
+      "directions": [
         {
-          "name" : "grimy key",
+          "directionName": "east",
+          "roomName": "Empty Room"
+        },
+        {
+          "directionName": "south",
+          "roomName": "Candle Room"
+        }
+      ],
+      "items": [
+        {
+          "name": "grimy key",
           "description": "You slowly reach your hand in puddle to grab the key. You wipe the key dry before putting it into your pocket."
         },
         {
-          "name" : "small blue pebble",
+          "name": "small blue pebble",
           "description": "You pick up the small blue pebble and pocket it."
         }
       ],
-      "willLockWhenEntered" : false
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
     },
     {
-      "name" : "Empty Room",
+      "name": "Empty Room",
       "description": "You walk up a stairway and enter a room with nothing in it.",
-      "directions" : [
+      "directions": [
         {
-          "directionName" : "North",
-          "roomName" : "Kitchen"
+          "directionName": "north",
+          "roomName": "Kitchen"
         },
         {
-          "directionName" : "South",
-          "roomName" : "Three-door Room"
+          "directionName": "south",
+          "roomName": "Three-door Room"
         },
         {
-          "directionName" : "West",
-          "roomName" : "Wet Room"
+          "directionName": "west",
+          "roomName": "Wet Room"
         }
       ],
-      "items" : [],
-      "willLockWhenEntered" : false
+      "items": [],
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
     },
     {
-      "name" : "Dim Room",
+      "name": "Dim Room",
       "description": "You enter a barely lit room and can't see anything expect for a note on the door at the end of the room.",
-      "directions" : [
+      "directions": [
         {
-          "directionName" : "North",
-          "roomName" : "Dark Room"
+          "directionName": "north",
+          "roomName": "Dark Room"
         },
         {
-          "directionName" : "South",
-          "roomName" : "Dead-end Warning Room"
+          "directionName": "south",
+          "roomName": "Dead-end Warning Room"
         }
       ],
-      "items" : [
+      "items": [
         {
-          "name" : "warning note",
+          "name": "warning note",
           "description": "You grab the note off the door and see the following message: 'Are you sure you want to continue forward?'"
         }
       ],
-      "willLockWhenEntered" : false
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
     },
     {
-      "name" : "Guardroom",
+      "name": "Guardroom",
       "description": "You open the door and see an asleep guard sitting in a chair in the corner of the room. You quietly enter.",
-      "directions" : [
+      "directions": [
         {
-          "directionName" : "North",
-          "roomName" : "Holding Cell"
+          "directionName": "north",
+          "roomName": "Holding Cell"
         },
         {
-          "directionName" : "East",
-          "roomName" : "Kitchen"
+          "directionName": "east",
+          "roomName": "Kitchen"
         }
       ],
-      "items" : [
+      "items": [
         {
-          "name" : "small orange pebble",
+          "name": "small orange pebble",
           "description": "You pick up the small orange pebble and pocket it."
         }
       ],
-      "willLockWhenEntered" : false
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
     },
     {
-      "name" : "Kitchen",
+      "name": "Kitchen",
       "description": "After walking up a stairway, you enter a room that looks like it used to be a kitchen. There's some stuff scattered around and you take a look around. Strangely, there's a dark gaping hole in the ceiling.",
-      "directions" : [
+      "directions": [
         {
-          "directionName" : "North",
-          "roomName" : "End Room"
+          "directionName": "north",
+          "roomName": "End Room"
         },
         {
-          "directionName" : "South",
-          "roomName" : "Empty Room"
+          "directionName": "south",
+          "roomName": "Empty Room"
         },
         {
-          "directionName" : "West",
-          "roomName" : "Guardroom"
+          "directionName": "west",
+          "roomName": "Guardroom"
         }
       ],
-      "items" : [
+      "items": [
         {
-          "name" : "breadcrumbs",
+          "name": "breadcrumbs",
           "description": "You sweep the breadcrumbs into your pocket. Why? I have no idea."
         },
         {
-          "name" : "small yellow pebble",
+          "name": "small yellow pebble",
           "description": "You pick up the small yellow pebble and pocket it."
         },
         {
-          "name" : "rotton eggs",
+          "name": "rotton eggs",
           "description": "No, why, stop. You pocket it anyways."
         }
       ],
-      "willLockWhenEntered" : false
-    },  
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
+    },
     {
-      "name" : "Dark Room",
+      "name": "Dark Room",
       "description": "You enter and can't actually see anything but the light coming out from under the door at the other side of the room.",
-      "directions" : [
+      "directions": [
         {
-          "directionName" : "North",
-          "roomName" : "Trap Room"
+          "directionName": "north",
+          "roomName": "Trap Room"
         },
         {
-          "directionName" : "South",
-          "roomName" : "Dim Room"
+          "directionName": "south",
+          "roomName": "Dim Room"
         }
       ],
-      "items" : [
+      "items": [
         {
-          "name" : "adventurer's note",
+          "name": "adventurer's note",
           "description": "You pick up a note from floor and can only make out three words: '... be... careful... end.'"
         }
       ],
-      "willLockWhenEntered" : false
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
     },
     {
-      "name" : "Holding Cell",
-      "description": "After quietly walking past the guard and up the stairs, you see a small cot behind the iron bars with a shiny object on the pillow. There's also something strange about the right wall in the cell.",
-      "directions" : [
+      "name": "Holding Cell",
+      "description": "After quietly walking past the guard and up the stairs, you see a small cot behind the iron bars with a shiny object on the pillow. However, the guard woke up and look you in the room. You better have the required items or you won't be able to get out and must restart the game. There's also something strange about the right wall in the cell.",
+      "directions": [
         {
-          "directionName" : "East",
-          "roomName" : "Kitchen"
+          "directionName": "east",
+          "roomName": "Kitchen"
         },
         {
-          "directionName" : "South",
-          "roomName" : "Guardroom"
+          "directionName": "south",
+          "roomName": "Guardroom"
         }
       ],
-      "items" : [
+      "items": [
         {
-          "name" : "ring",
+          "name": "golden ring",
           "description": "You pick up the golden ring and pocket it."
         },
         {
-          "name" : "small purple pebble",
+          "name": "small purple pebble",
           "description": "You pick up the small purple pebble and pocket it."
         }
       ],
-      "willLockWhenEntered" : false
+      "willLockWhenEntered": true,
+      "requiredItemsToUnlockRoom": [
+        {
+          "name": "guard key",
+          "description": "This looks like a key to a prison cell."
+        }
+      ]
     },
     {
-      "name" : "End Room",
-      "description": "You have reached the exit of the dungeon and can see the outside from the door in the front. However, the door locks behind you locks and you cannot go back. You better hope you've collected the necessary items to exit the door in the front.",
-      "directions" : [
+      "name": "End Room",
+      "description": "You have reached the exit of the dungeon and can see the outside from the door in the front. However, the door locks behind you locks and you cannot go back. You better hope you've collected the necessary items to leave the dungeon or else you must restart the game.",
+      "directions": [
         {
-          "directionName" : "Leave the dungeon",
-          "roomName" : "You have escaped the dungeon. Congratulations!"
+          "directionName": "Leave the dungeon",
+          "roomName": "You have escaped the dungeon. Congratulations!"
         }
       ],
-      "items" : [],
-      "willLockWhenEntered" : true
-    },
-    {
-      "name" : "Trap Room",
-      "description": "You enter the room and see that theres a ring hanging on the wall. However, the door behind you looks and you can't get out. You better hope you have a key to unlock the door.",
-      "directions" : [
+      "items": [],
+      "willLockWhenEntered": true,
+      "requiredItemsToUnlockRoom": [
         {
-          "directionName" : "South",
-          "roomName" : "Dark Room"
-        }
-      ],
-      "items" : [
+          "name": "bronze ring",
+          "description": "You pick up the bronze ring and pocket it."
+        },
         {
-          "name" : "ring",
+          "name": "silver ring",
+          "description": "You pick up the silver ring and pocket it."
+        },
+        {
+          "name": "golden ring",
           "description": "You pick up the golden ring and pocket it."
         }
+      ]
+    },
+    {
+      "name": "Trap Room",
+      "description": "You enter the room and see that theres a ring hanging on the wall. However, the door behind you looks and you can't get out. You better hope you have a key to unlock the door and must restart the game.",
+      "directions": [
+        {
+          "directionName": "south",
+          "roomName": "Dark Room"
+        }
       ],
-      "willLockWhenEntered" : true
-    }  
+      "items": [
+        {
+          "name": "bronze ring",
+          "description": "You pick up the bronze ring and pocket it."
+        }
+      ],
+      "willLockWhenEntered": true,
+      "requiredItemsToUnlockRoom": [
+        {
+          "name": "grimy key",
+          "description": "You slowly reach your hand in puddle to grab the key. You wipe the key dry before putting it into your pocket."
+        }
+      ]
+    }
   ]
 }
