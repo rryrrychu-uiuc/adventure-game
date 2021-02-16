@@ -8,6 +8,7 @@ public class Item {
     private String itemName;
     @SerializedName("description")
     private String itemDescription;
+    private String itemType;
 
     public String getItemName() {
         return itemName.toLowerCase();
@@ -16,4 +17,6 @@ public class Item {
     public String getItemDescription() {
         return itemDescription;
     }
+
+    public String getItemType() { return itemType;}
 }

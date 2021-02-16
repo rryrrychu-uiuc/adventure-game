@@ -4,7 +4,7 @@
   "rooms": [
     {
       "name": "Candle Room",
-      "description": "You entered a small room lit only by a small candle hanging from the ceiling. You can see a single door to your right with a small chair in the dark corner of the room.",
+      "description": "You entered a small room lit only by a small candle hanging from the ceiling.\nYou can see a single door and a small chair in the dark corner of the room.",
       "directions": [
         {
           "directionName": "north",
@@ -18,11 +18,18 @@
       "items": [
         {
           "name": "silver ring",
-          "description": "You pick up the silver ring and pocket it."
+          "description": "You pick up the silver ring and pocket it.",
+          "itemType" : "keyItem"
         },
         {
           "name": "small red pebble",
-          "description": "You pick up the small red pebble and pocket it."
+          "description": "You pick up the small red pebble and pocket it.",
+          "itemType" : "pebbleItem"          
+        },
+        {
+          "name": "breadcrumb",
+          "description": "You pinch the singular breadcrumb and drop it in your pocket. Why? I have no idea.",
+          "itemType" : "foodItem"          
         }
       ],
       "willLockWhenEntered": false,
@@ -30,7 +37,7 @@
     },
     {
       "name": "Three-door Room",
-      "description": "You fell down a deep hole and are now stuck in a room with nothing but the hole in the room which you fell in from and three dungeon doors. You have no choice but to go through one of the doors and try to find your way out.",
+      "description": "You fell down a deep hole and are now stuck now a room with three dungeon doors.\nYou have no choice but explore and try to find your way out.",
       "directions": [
         {
           "directionName": "north",
@@ -51,7 +58,7 @@
     },
     {
       "name": "Dead-end Warning Room",
-      "description": "You enter a room that looks like it was an office of some sort. The walls are covered with drawings and the table near the door has many burned papers on it. There's some random items lying around the room.",
+      "description": "You enter a room that looks like it was an office of some sort.\nThe walls are covered with drawings and the table near the door has many burned papers on it.\nThere's some random items lying around the room.",
       "directions": [
         {
           "directionName": "north",
@@ -65,23 +72,28 @@
       "items": [
         {
           "name": "burned note",
-          "description": "You pick up a half-burned note with the following message: 'Traveler: Ahead is a one-way path with a dead end. Procced wit-.'"
+          "description": "You pick up a half-burned note with the following message: 'Traveler, ahead is a one-way path with a dead end. Procced wit-.'",
+          "itemType" : "tipItem"          
         },
         {
           "name": "small green pebble",
-          "description": "You pick up the small green pebble and pocket it."
+          "description": "You pick up the small green pebble and pocket it.",
+          "itemType" : "pebbleItem"
         },
         {
           "name": "breadcrumb",
-          "description": "You sweep the breadcrumbs into your pocket. Why? I have no idea."
+          "description": "You pinch the singular breadcrumb and drop it in your pocket. Why? I have no idea.",
+          "itemType" : "foodItem"
         },
         {
           "name": "dusty pen",
-          "description": "Why would you pick this up? Reluctantly puts it away."
+          "description": "This would be a nice addition to Amy's collection. You place it safely in your bag.",
+          "itemType" : "penItem"
         },
         {
           "name": "guard key",
-          "description": "This looks like a key to a prison cell."
+          "description": "This looks like a key to a prison cell. You put it in your pocket.",
+          "itemType" : "keyItem"
         }
       ],
       "willLockWhenEntered": false,
@@ -89,7 +101,7 @@
     },
     {
       "name": "Wet Room",
-      "description": "You slowly enter and hear the sound of a slow dripping water. A light is coming through the door on the right and you see something shiny in the puddle of water on the floor.",
+      "description": "You enter and immediately feel the thick air.\nYou hear the sound of slow dripping water.\nA light is coming through the other and spot something shiny in the puddle of water on the floor.",
       "directions": [
         {
           "directionName": "east",
@@ -103,11 +115,13 @@
       "items": [
         {
           "name": "grimy key",
-          "description": "You slowly reach your hand in puddle to grab the key. You wipe the key dry before putting it into your pocket."
+          "description": "You slowly reach your hand in puddle to grab the key. You wipe the key dry before putting it into your pocket.",
+          "itemType" : "keyItem"
         },
         {
           "name": "small blue pebble",
-          "description": "You pick up the small blue pebble and pocket it."
+          "description": "You pick up the small blue pebble and pocket it.",
+          "itemType" : "pebbleItem"
         }
       ],
       "willLockWhenEntered": false,
@@ -150,7 +164,8 @@
       "items": [
         {
           "name": "warning note",
-          "description": "You grab the note off the door and see the following message: 'Are you sure you want to continue forward?'"
+          "description": "You grab the note off the door and see the following message: 'Are you sure you want to continue forward?'",
+          "itemType" : "tipItem"
         }
       ],
       "willLockWhenEntered": false,
@@ -172,7 +187,13 @@
       "items": [
         {
           "name": "small orange pebble",
-          "description": "You pick up the small orange pebble and pocket it."
+          "description": "You pick up the small orange pebble and pocket it.",
+          "itemType" : "pebbleItem"
+        },
+        {
+          "name": "guards sandwich",
+          "description": "You steal the guard's sandwhich and save it for later.",
+          "itemType" : "foodItem"
         }
       ],
       "willLockWhenEntered": false,
@@ -180,7 +201,7 @@
     },
     {
       "name": "Kitchen",
-      "description": "After walking up a stairway, you enter a room that looks like it used to be a kitchen. There's some stuff scattered around and you take a look around. Strangely, there's a dark gaping hole in the ceiling.",
+      "description": "After walking up a stairway, you enter a room that looks like it used to be a kitchen.\nThere's some stuff scattered around and you take a look around.\nStrangely, there's a dark gaping hole in the ceiling.",
       "directions": [
         {
           "directionName": "north",
@@ -198,15 +219,18 @@
       "items": [
         {
           "name": "breadcrumbs",
-          "description": "You sweep the breadcrumbs into your pocket. Why? I have no idea."
+          "description": "You sweep the breadcrumbs into your pocket. Why? I have no idea.",
+          "itemType" : "foodItem"
         },
         {
           "name": "small yellow pebble",
-          "description": "You pick up the small yellow pebble and pocket it."
+          "description": "You pick up the small yellow pebble and pocket it.",
+          "itemType" : "pebbleItem"
         },
         {
-          "name": "rotton eggs",
-          "description": "No, why, stop. You pocket it anyways."
+          "name": "rotten eggs",
+          "description": "No, why, stop. You pocket it anyways.",
+          "itemType" : "foodItem"
         }
       ],
       "willLockWhenEntered": false,
@@ -227,8 +251,9 @@
       ],
       "items": [
         {
-          "name": "adventurer's note",
-          "description": "You pick up a note from floor and can only make out three words: '... be... careful... end.'"
+          "name": "adventurers note",
+          "description": "You pick up a note from floor and can only make out three words: '... be... careful... end.'",
+          "itemType" : "tipItem"
         }
       ],
       "willLockWhenEntered": false,
@@ -236,7 +261,7 @@
     },
     {
       "name": "Holding Cell",
-      "description": "After quietly walking past the guard and up the stairs, you see a small cot behind the iron bars with a shiny object on the pillow. However, the guard woke up and look you in the room. You better have the required items or you won't be able to get out and must restart the game. There's also something strange about the right wall in the cell.",
+      "description": "After quietly walking past the guard and up the stairs, you see a small cot behind the iron bars with a shiny object on the pillow.\n However, the guard woke up and locked you in the room.\nYou better hope you have a key to *unlock* the door or else you must *restart* the game.",
       "directions": [
         {
           "directionName": "east",
@@ -250,24 +275,37 @@
       "items": [
         {
           "name": "golden ring",
-          "description": "You pick up the golden ring and pocket it."
+          "description": "You pick up the golden ring and pocket it.",
+          "itemType" : "keyItem"
         },
         {
           "name": "small purple pebble",
-          "description": "You pick up the small purple pebble and pocket it."
+          "description": "You pick up the small purple pebble and pocket it.",
+          "itemType" : "pebbleItem"
+        },
+        {
+          "name": "baguette",
+          "description": "The must feed their prisoners well if they get a whole baguette. You save it for later.",
+          "itemType" : "foodItem"
+        },
+        {
+          "name": "lettuce",
+          "description": "Lett-us leafve. (Let us leave)",
+          "itemType" : "foodItem"
         }
       ],
       "willLockWhenEntered": true,
       "requiredItemsToUnlockRoom": [
         {
           "name": "guard key",
-          "description": "This looks like a key to a prison cell."
+          "description": "This looks like a key to a prison cell. You put it in your pocket.",
+          "itemType" : "keyItem"
         }
       ]
     },
     {
       "name": "End Room",
-      "description": "You have reached the exit of the dungeon and can see the outside from the door in the front. However, the door locks behind you locks and you cannot go back. You better hope you've collected the necessary items to leave the dungeon or else you must restart the game.",
+      "description": "You have reached the exit of the dungeon and can see the outside from the door in the front.\nHowever, the door locks behind you.\nYou better have collected the necessary items to *unlock* and *leave the dungeon* or else you must *restart* the game.",
       "directions": [
         {
           "directionName": "Leave the dungeon",
@@ -279,21 +317,24 @@
       "requiredItemsToUnlockRoom": [
         {
           "name": "bronze ring",
-          "description": "You pick up the bronze ring and pocket it."
+          "description": "You pick up the bronze ring and pocket it.",
+          "itemType" : "keyItem"
         },
         {
           "name": "silver ring",
-          "description": "You pick up the silver ring and pocket it."
+          "description": "You pick up the silver ring and pocket it.",
+          "itemType" : "keyItem"
         },
         {
           "name": "golden ring",
-          "description": "You pick up the golden ring and pocket it."
+          "description": "You pick up the golden ring and pocket it.",
+          "itemType" : "keyItem"
         }
       ]
     },
     {
       "name": "Trap Room",
-      "description": "You enter the room and see that theres a ring hanging on the wall. However, the door behind you looks and you can't get out. You better hope you have a key to unlock the door and must restart the game.",
+      "description": "You enter the room and see that there is a ring hanging on the wall.\nHowever, the door locks behind you.\nYou better hope you have a key to *unlock* the door or else you must *restart* the game.",
       "directions": [
         {
           "directionName": "south",
@@ -303,14 +344,16 @@
       "items": [
         {
           "name": "bronze ring",
-          "description": "You pick up the bronze ring and pocket it."
+          "description": "You pick up the bronze ring and pocket it.",
+          "itemType" : "keyItem"
         }
       ],
       "willLockWhenEntered": true,
       "requiredItemsToUnlockRoom": [
         {
           "name": "grimy key",
-          "description": "You slowly reach your hand in puddle to grab the key. You wipe the key dry before putting it into your pocket."
+          "description": "You slowly reach your hand in puddle to grab the key. You wipe the grime off the key before pocketing.",
+          "itemType" : "keyItem"
         }
       ]
     }
