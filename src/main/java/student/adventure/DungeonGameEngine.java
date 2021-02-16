@@ -40,14 +40,18 @@ public class DungeonGameEngine {
     public String moveRooms(String directionName) {
 
         if (currentRoom.isLocked()) {
-            return "Room is locked.";
+            return "Cannot leave the room. The room is locked.";
         }
 
-        if(directionName.equals("Leave the dungeon")) {
-            return "Escaped!";
+        if(directionName.equals("leave the dungeon")) {
+            return "6You have escaped!";
         }
 
         String roomName = findRoomName(directionName);
+        if(roomName == null) {
+            return "Cannot go in the direction '" + directionName + "'";
+        }
+
         currentRoom = mapLayout.searchForTargetRoom(roomName);
         return currentRoom.toString();
     }
@@ -62,7 +66,7 @@ public class DungeonGameEngine {
             }
         }
 
-        return "";
+        return null;
     }
 
     /**
