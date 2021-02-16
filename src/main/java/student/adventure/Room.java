@@ -10,9 +10,13 @@ public class Room {
     private String roomName;
     @SerializedName("description")
     private String roomDescription;
+
     private ArrayList<Direction> directions;
     private ArrayList<Item> items;
+
     private boolean willLockWhenEntered;
+    @SerializedName("requiredItemsToUnlockRoom")
+    private ArrayList<Item> itemsRequiredToUnlockRoom;
 
     public String getRoomName() {
         return roomName;
@@ -34,6 +38,10 @@ public class Room {
         return willLockWhenEntered;
     }
 
+    public ArrayList<Item> getItemsRequiredToUnlockRoom() {
+        return itemsRequiredToUnlockRoom;
+    }
+
     public void takeItem(Item toTake) {
 
         items.remove(toTake);
@@ -45,6 +53,17 @@ public class Room {
 
     public void unlock() {
         willLockWhenEntered = false;
+    }
+
+    public boolean hasRequiredItems(ArrayList<Item> inventory) {
+
+        for(Item toCheck: itemsRequiredToUnlockRoom) {
+            if (!inventory.contains(toCheck)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public String listDirections() {

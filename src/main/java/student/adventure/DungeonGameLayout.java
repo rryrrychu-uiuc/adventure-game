@@ -24,12 +24,6 @@ public class DungeonGameLayout {
         return rooms;
     }
 
-    public void printRooms() {
-        for (Room r : rooms) {
-            System.out.println(r + "\n");
-        }
-    }
-
     public Room getStartingRoom() {
         return searchForTargetRoom(startingRoomName);
     }
