@@ -10,7 +10,7 @@ public class Item {
     private String itemDescription;
 
     public String getItemName() {
-        return itemName;
+        return itemName.toLowerCase();
     }
 
     public String getItemDescription() {

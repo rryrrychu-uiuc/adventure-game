@@ -6,7 +6,7 @@ public class Direction {
     private String roomName;
 
     public String getDirectionName() {
-        return directionName;
+        return directionName.toLowerCase();
     }
 
     public String getRoomName() {
