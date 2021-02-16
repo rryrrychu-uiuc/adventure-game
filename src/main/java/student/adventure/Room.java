@@ -34,8 +34,22 @@ public class Room {
         return willLockWhenEntered;
     }
 
+    public void takeItem(Item toTake) {
+
+        items.remove(toTake);
+    }
+
+    public void addItem(Item toAdd) {
+        items.add(toAdd);
+    }
+
+    public void unlock() {
+        willLockWhenEntered = false;
+    }
+
     public String listDirections() {
-        StringBuilder toReturn = new StringBuilder();
+
+        StringBuilder toReturn = new StringBuilder("From here, you can go:");
         for (Direction targetDirection : directions) {
             toReturn.append(" ");
             toReturn.append(targetDirection.getDirectionName());
@@ -46,25 +60,23 @@ public class Room {
     }
 
     public String listItems() {
-        StringBuilder toReturn = new StringBuilder();
+
+        StringBuilder toReturn = new StringBuilder("Items visible: ");
         for (Item targetItem : items) {
-            toReturn.append(" ");
             toReturn.append(targetItem.getItemName());
             toReturn.append(",");
-        }
-
-        if (toReturn.length() == 0) {
-            return "";
+            toReturn.append(" ");
         }
 
         return toReturn.substring(0, toReturn.length() - 1);
     }
 
     public String toString() {
+
         String toReturn = "";
-        toReturn += (roomName + ": " + roomDescription);
-        toReturn += "\n" + "Possible Directions:" + listDirections();
-        toReturn += "\n" + "Items Visible:" + listItems();
+        toReturn += roomDescription;
+        toReturn += "\n" + listDirections();
+        toReturn += "\n" + listItems();
 
         return toReturn;
     }
