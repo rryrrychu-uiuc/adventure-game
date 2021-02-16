@@ -21,6 +21,32 @@ public class DungeonGameEngine {
         loadGame();
     }
 
+    //Takes in an array of strings as a command and preforms the desired task
+    public String inputCommand(String commandName, String arguments) {
+
+        switch(commandName) {
+            case "quit":
+            case "exit":
+                return "Goodbye";
+            case "examine":
+                return examineRoom();
+            case "go":
+                return moveRooms(arguments);
+            case "take":
+                return takeItem(arguments, currentRoom.getItems());
+            case "drop":
+                return dropItem(arguments, inventory);
+            case "unlock":
+                return unlockRoom();
+            case "inventory":
+                return viewInventory();
+            case "restart":
+                return restartGame();
+            default:
+                return "CommandError: '" + commandName + arguments + "' is not a valid command";
+        }
+    }
+
     /**
      * Provides the stats of currentRoom
      *
@@ -75,15 +101,12 @@ public class DungeonGameEngine {
      * @param itemName name of the item the player wants to obtain from the room
      * @return the description of the item
      */
-    public String takeItem(String itemName) {
-
-        return takeItemHelper(itemName, currentRoom.getItems());
-    }
-
-    //helper to takeItem since the UI can't access currentRoom's items
-    private String takeItemHelper(String itemName, ArrayList<Item> itemLocation) {
+    private String takeItem(String itemName, ArrayList<Item> itemLocation) {
 
         Item toTake = findItem(itemName, itemLocation);
+        if(toTake == null) {
+            return "Room does not contain '" + itemName + "'";
+        }
 
         currentRoom.takeItem(toTake);
         inventory.add(toTake);
@@ -97,15 +120,12 @@ public class DungeonGameEngine {
      * @param itemName name of the item the player wants to drop from inventory
      * @return the name of the item dropped
      */
-    public String dropItem(String itemName) {
-
-        return dropItemHelper(itemName, inventory);
-    }
-
-    //helper to dropItem since the UI can't access inventory
-    private String dropItemHelper(String itemName, ArrayList<Item> itemLocation) {
+    private String dropItem(String itemName, ArrayList<Item> itemLocation) {
 
         Item toDrop = findItem(itemName, itemLocation);
+        if(toDrop == null) {
+            return "Inventory does not contain '" + itemName + "'";
+        }
 
         inventory.remove(toDrop);
         currentRoom.addItem(toDrop);
@@ -146,9 +166,10 @@ public class DungeonGameEngine {
     }
 
     //reloads the game from the JSON to restart the game
-    public void restartGame() {
+    public String restartGame() {
 
         loadGame();
+        return "Game restarted!";
     }
 
     //given the instance variable, restart the current game from the file
@@ -183,6 +204,7 @@ public class DungeonGameEngine {
             toReturn.append(" ");
         }
 
-        return toReturn.substring(0, toReturn.length() - 1);
+        return toReturn.substring(0, toReturn.length() - 2);
     }
+
 }
