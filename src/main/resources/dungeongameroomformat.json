@@ -261,7 +261,7 @@
     },
     {
       "name": "Holding Cell",
-      "description": "After quietly walking past the guard and up the stairs, you see a small cot behind the iron bars with a shiny object on the pillow.\n However, the guard woke up and locked you in the room.\nYou better hope you have a key to *unlock* the door or else you must *restart* the game.",
+      "description": "After quietly walking past the guard and up the stairs, you see a small cot behind the iron bars with a shiny object on the pillow.\nHowever, the guard woke up and locked you in the room.\nYou better hope you have a key to *unlock* the door or else you must *restart* the game.",
       "directions": [
         {
           "directionName": "east",

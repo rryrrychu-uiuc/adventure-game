@@ -14,9 +14,10 @@ public class Room {
     private ArrayList<Direction> directions;
     private ArrayList<Item> items;
 
-    private boolean willLockWhenEntered;
+    @SerializedName("willLockWhenEntered")
+    private boolean willLock;
     @SerializedName("requiredItemsToUnlockRoom")
-    private ArrayList<Item> itemsRequiredToUnlockRoom;
+    private ArrayList<Item> requiredItems;
 
     public String getRoomName() {
         return roomName;
@@ -35,75 +36,91 @@ public class Room {
     }
 
     public boolean isLocked() {
-        return willLockWhenEntered;
+        return willLock;
     }
 
-    public ArrayList<Item> getItemsRequiredToUnlockRoom() {
-        return itemsRequiredToUnlockRoom;
+    public ArrayList<Item> getRequiredItems() {
+        return requiredItems;
     }
 
+    //removes an item from the room
     public void takeItem(Item toTake) {
 
         items.remove(toTake);
     }
 
+    //adds the given item to the room
     public void addItem(Item toAdd) {
         items.add(toAdd);
     }
 
+    //changes willLock to false
     public void unlock() {
-        willLockWhenEntered = false;
+        willLock = false;
     }
 
+    //checks if the inventory contains all of the requiredItems
     public boolean hasRequiredItems(ArrayList<Item> inventory) {
+        return inventory.containsAll(requiredItems);
+    }
 
-        int numOfItems = 0;
-        for(Item toCheck: itemsRequiredToUnlockRoom) {
-            String itemName = toCheck.getItemName();
-            for(Item toCompare: inventory) {
-                if(toCompare.getItemName().equals(itemName)) {
-                    numOfItems++;
-                }
+    //finds the associated roomName associated to a direction for the current room
+    public String findRoomName(String directionName) {
+
+        for (Direction targetDirection : directions) {
+            if (targetDirection.getDirectionName().equals(directionName)) {
+
+                return targetDirection.getRoomName();
             }
         }
 
-        return numOfItems == itemsRequiredToUnlockRoom.size();
+        return null;
     }
 
+    //lists all of the valid directions for the room
     public String listDirections() {
 
-        StringBuilder toReturn = new StringBuilder();
+        StringBuilder toReturn = new StringBuilder("From here, you can go:");
         for (Direction targetDirection : directions) {
             toReturn.append(" ");
             toReturn.append(targetDirection.getDirectionName());
             toReturn.append(",");
         }
 
-        return toReturn.substring(0, toReturn.length() - 1);
+        int lastChar = toReturn.lastIndexOf(",");
+        if (lastChar < 0) {
+            return toReturn.toString();
+        }
+
+        return toReturn.substring(0, lastChar);
     }
 
+    //list all of the items located in the room
     public String listItems() {
 
-        StringBuilder toReturn = new StringBuilder();
+        StringBuilder toReturn = new StringBuilder("Items Visible:");
         for (Item targetItem : items) {
             toReturn.append(" ");
             toReturn.append(targetItem.getItemName());
             toReturn.append(",");
         }
 
-        if(toReturn.toString().length() == 0) {
-            return "";
+        int lastChar = toReturn.lastIndexOf(",");
+        if (lastChar < 0) {
+            toReturn.append(" (nothing)");
+            return toReturn.toString();
         }
 
-        return toReturn.substring(0, toReturn.length() - 1);
+        return toReturn.substring(0, lastChar);
     }
 
+    //prints all of the necessary stats of the room
     public String toString() {
 
         String toReturn = "===" +getRoomName() + "===\n";
         toReturn += roomDescription + "\n";
-        toReturn += "\nFrom here, you can go:" + listDirections();
-        toReturn += "\nItems Visible:" + listItems();
+        toReturn += "\n" + listDirections();
+        toReturn += "\n" + listItems();
 
         return toReturn;
     }
