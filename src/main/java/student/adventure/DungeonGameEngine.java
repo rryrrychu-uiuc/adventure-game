@@ -1,8 +1,9 @@
 package student.adventure;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
-import java.io.IOException;
+import java.io.*;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -143,9 +144,13 @@ public class DungeonGameEngine {
         Gson gson = new Gson();
         try {
             Reader jsonFile = Files.newBufferedReader(Paths.get(restartGameFilePath));
+
             mapLayout = gson.fromJson(jsonFile, DungeonGameLayout.class);
+
         } catch (IOException e) {
-            throw new IllegalArgumentException("Invalid path");
+            throw new IllegalArgumentException("Path is invalid");
+        } catch (JsonSyntaxException e) {
+            throw new IllegalArgumentException("JSON file does not fit the schema of this game");
         }
 
         currentRoom = mapLayout.getStartingRoom();
@@ -172,5 +177,4 @@ public class DungeonGameEngine {
 
         return toReturn.substring(0, lastChar);
     }
-
 }
