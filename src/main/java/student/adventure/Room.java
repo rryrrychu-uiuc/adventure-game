@@ -4,6 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+/**
+ * Room is a storage object that maintains different stats about a certain room
+ *
+ * @author Harry Chu
+ */
 public class Room {
 
     @SerializedName("name")
@@ -78,7 +83,7 @@ public class Room {
     }
 
     //lists all of the valid directions for the room
-    public String listDirections() {
+    private String listDirections() {
 
         StringBuilder toReturn = new StringBuilder("From here, you can go:");
         for (Direction targetDirection : directions) {
@@ -96,7 +101,7 @@ public class Room {
     }
 
     //list all of the items located in the room
-    public String listItems() {
+    private String listItems() {
 
         StringBuilder toReturn = new StringBuilder("Items Visible:");
         for (Item targetItem : items) {
@@ -117,11 +122,26 @@ public class Room {
     //prints all of the necessary stats of the room
     public String toString() {
 
-        String toReturn = "===" +getRoomName() + "===\n";
+        String toReturn = "===" + getRoomName() + "===\n";
         toReturn += roomDescription + "\n";
         toReturn += "\n" + listDirections();
         toReturn += "\n" + listItems();
 
         return toReturn;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Room targetRoom) {
+            boolean nameIsEqual = roomName.equals(targetRoom.roomName);
+            boolean descriptionIsEqual = roomDescription.equals(targetRoom.roomDescription);
+            boolean directionsAreEqual = directions.equals(targetRoom.directions);
+            boolean itemsAreEqual = items.equals(targetRoom.items);
+            boolean willLockIsEqual = willLock == targetRoom.willLock;
+            boolean requiredItemsAreEqual = requiredItems.equals(targetRoom.requiredItems);
+            return nameIsEqual && descriptionIsEqual && directionsAreEqual && itemsAreEqual && willLockIsEqual && requiredItemsAreEqual;
+        }
+
+        return false;
     }
 }

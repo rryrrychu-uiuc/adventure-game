@@ -1,6 +1,7 @@
 {
   "startingRoom": "Three-door Room",
   "endingRoom": "End Room",
+  "gameType": "dungeonGame",
   "rooms": [
     {
       "name": "Candle Room",
