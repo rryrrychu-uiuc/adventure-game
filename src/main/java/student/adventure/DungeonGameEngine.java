@@ -47,33 +47,24 @@ public class DungeonGameEngine {
         }
     }
 
-    /**
-     * Provides the stats of currentRoom
-     *
-     * @return the description, list of directions, and list of items in the present room as a string
-     */
-    public String examineRoom() {
+    // returns the stats of the current room
+    private String examineRoom() {
 
         return currentRoom.toString();
     }
 
-    /**
-     * Changes the currentRoom to a new room.
-     *
-     * @param directionName the name of the direction the player wants to move in
-     * @return The description, direction, and items contained in the new room
-     */
-    public String moveRooms(String directionName) {
+    //changes the currentRoom to a new room given the direction of the new room
+    private String moveRooms(String directionName) {
 
         if (currentRoom.isLocked()) {
             return "Cannot leave the room. The room is locked.";
         }
 
         if(directionName.equals("leave the dungeon")) {
-            return "6You have escaped!";
+            return "You have escaped!";
         }
 
-        String roomName = findRoomName(directionName);
+        String roomName = currentRoom.findRoomName(directionName);
         if(roomName == null) {
             return "Cannot go in the direction '" + directionName + "'";
         }
@@ -82,25 +73,7 @@ public class DungeonGameEngine {
         return currentRoom.toString();
     }
 
-    //finds the associated roomName associated to a direction for the current room
-    private String findRoomName(String directionName) {
-
-        for (Direction targetDirection : currentRoom.getDirections()) {
-            if (targetDirection.getDirectionName().equals(directionName)) {
-
-                return targetDirection.getRoomName();
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Takes an item and adds it to the player inventory.
-     *
-     * @param itemName name of the item the player wants to obtain from the room
-     * @return the description of the item
-     */
+    //takes an item from the current room and adds it to the inventory
     private String takeItem(String itemName, ArrayList<Item> itemLocation) {
 
         Item toTake = findItem(itemName, itemLocation);
@@ -114,12 +87,7 @@ public class DungeonGameEngine {
         return toTake.getItemDescription();
     }
 
-    /**
-     * Takes an item from the player inventory and adds it to the room.
-     *
-     * @param itemName name of the item the player wants to drop from inventory
-     * @return the name of the item dropped
-     */
+    //takes an item from the inventory and adds it to the current room
     private String dropItem(String itemName, ArrayList<Item> itemLocation) {
 
         Item toDrop = findItem(itemName, itemLocation);
@@ -146,27 +114,24 @@ public class DungeonGameEngine {
         return null;
     }
 
-    /**
-     * Unlock the current room given a player has the correct items
-     *
-     * @return statement telling the player whether the room was unlocked
-     */
-    public String unlockRoom() {
+    //unlocks the current room if its not already unlocked and the player has the necessary items
+    private String unlockRoom() {
 
         if(!currentRoom.isLocked()) {
             return "Room is not locked.";
         }
 
         if (!currentRoom.hasRequiredItems(inventory)) {
-            return "You do not have the necessary items to unlock the doors in this room. Please type 'restart' to restart the game";
+            return "You do not have the necessary items to *unlock* the doors in this room. "
+                    + "You must *restart* the game";
         }
 
         currentRoom.unlock();
-        return "Room unlocked!";
+        return "Room unlocked! You may now *go* in any valid direction and leave the room.";
     }
 
     //reloads the game from the JSON to restart the game
-    public String restartGame() {
+    private String restartGame() {
 
         loadGame();
         return "Game restarted!";
@@ -189,22 +154,23 @@ public class DungeonGameEngine {
         System.out.println(currentRoom.toString());
     }
 
-    /**
-     * Finds all of the items in the players inventory
-     *
-     * @return a string list of the items in the player's inventory
-     */
-    public String viewInventory() {
+    //returns a string containing all of the items in inventory
+    private String viewInventory() {
 
-        StringBuilder toReturn = new StringBuilder("Inventory: ");
+        StringBuilder toReturn = new StringBuilder("Inventory:  ");
         for (Item targetItem : inventory) {
-
             toReturn.append(targetItem.getItemName());
             toReturn.append(",");
             toReturn.append(" ");
         }
 
-        return toReturn.substring(0, toReturn.length() - 2);
+        int lastChar = toReturn.lastIndexOf(",");
+        if (lastChar < 0) {
+            toReturn.append(" (nothing)");
+            return toReturn.toString();
+        }
+
+        return toReturn.substring(0, lastChar);
     }
 
 }

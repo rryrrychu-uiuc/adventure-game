@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class DungeonGameUI {
 
     public DungeonGameEngine gameEngine;
-    public final String ESCAPED_DUNGEON = "Escaped!";
+    public final String ESCAPED_DUNGEON = "You have escaped!";
     public final String EXIT_GAME = "Goodbye";
 
     public DungeonGameUI(String path) {
