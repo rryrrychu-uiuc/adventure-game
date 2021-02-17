@@ -1,0 +1,54 @@
+{
+  "startingRoom": "Cathouse",
+  "endingRoom": "Doghouse",
+  "gameType": "dungeonGame",
+  "rooms": [
+    {
+      "name": "Cathouse",
+      "description": "Test Room",
+      "directions": [
+        {
+          "directionName": "forward",
+          "roomName": "Doghouse"
+        }
+      ],
+      "items": [
+        {
+          "name": "waterbottle",
+          "description": "Its a water bottle.",
+          "itemType": "waterItem"
+        },
+        {
+          "name": "Pentel Energel Black Pen",
+          "description": "Super nice pen.",
+          "itemType": "penItem"
+        }
+      ],
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
+    },
+    {
+      "name": "Doghouse",
+      "description": "TestRoom",
+      "directions": [
+        {
+          "directionName": "south",
+          "roomName": "Cathouse"
+        },
+        {
+          "directionName": "escape",
+          "roomName": "Escaper"
+        }
+      ],
+      "items": [],
+      "willLockWhenEntered": true,
+      "requiredItemsToUnlockRoom": [
+        {
+          "name": "Pentel Energel Black Pen",
+          "description": "Supernice pen.",
+          "itemType": "penItem"
+        }
+      ]
+    }
+  ]
+}
