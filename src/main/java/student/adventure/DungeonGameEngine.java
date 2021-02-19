@@ -7,6 +7,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * DungeonGameEngine maintains most of the logic that interacts and changes the room based on what a player does
@@ -80,7 +81,7 @@ public class DungeonGameEngine {
         }
 
         if (directionName.equals("leave the dungeon")) {
-            return "You have escaped the dungeon! Enjoy your freedom!";
+            return currentRoom.findRoomName(directionName) + "\n" + getObtainedAchievements();
         }
 
         String roomName = currentRoom.findRoomName(directionName);
@@ -198,5 +199,35 @@ public class DungeonGameEngine {
         inventory = new ArrayList<>();
 
         System.out.println(currentRoom.toString());
+    }
+
+    //Notifies the player of any achievements they may have gotten from collecting items
+    private String getObtainedAchievements() {
+
+        StringBuilder toReturn = new StringBuilder("Obtained Achievements:");
+
+        //totals all of the itemTypes a player received
+        HashMap<String, Integer> numOfItemType = new HashMap<>();
+        for(Item targetItem: inventory) {
+
+            String itemType = targetItem.getItemType();
+            if(numOfItemType.containsKey(itemType)) {
+                numOfItemType.put(itemType, numOfItemType.get(itemType) + 1);
+            } else {
+                numOfItemType.put(itemType, 1);
+            }
+        }
+
+        //checks if the totals meet the required number of the achievement
+        for(Achievement targetAchievement: mapLayout.getAchievements()) {
+
+            int obtainedItems = numOfItemType.get(targetAchievement.getItemType());
+            if(obtainedItems >= targetAchievement.getMinRequiredItems()) {
+                toReturn.append("\n");
+                toReturn.append(targetAchievement.getAchievementMessage());
+            }
+        }
+
+        return toReturn.toString();
     }
 }

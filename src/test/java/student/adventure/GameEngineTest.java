@@ -215,4 +215,18 @@ public class GameEngineTest {
 
         assertEquals(expectedResult, actualResult);
     }
+
+    //Testing achievements
+
+    @Test
+    public void testValidAchievement() {
+        testEngine.inputCommand("take", "pentel energel black pen");
+        testEngine.inputCommand("go", "forward");
+        testEngine.inputCommand("unlock", "");
+
+        String expectedResult = "You have escaped the dungeon! Congratulations!\nObtained Achievements:\nYou are a Stationary Addict!!! You'll pick up any stationary you find... anywhere.";
+        String actualResult = testEngine.inputCommand("go", "leave the dungeon");
+
+        assertEquals(expectedResult, actualResult);
+    }
 }

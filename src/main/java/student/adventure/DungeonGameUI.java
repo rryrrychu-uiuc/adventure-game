@@ -31,7 +31,7 @@ public class DungeonGameUI {
             String[] splitCommand = cleanCommandAndArguments(commandLine);
             commandOutput = gameEngine.inputCommand(splitCommand[0], splitCommand[1]);
 
-            System.out.println("\n" + commandOutput);
+            System.out.println("\n" + commandOutput + "\n");
         }
     }
 

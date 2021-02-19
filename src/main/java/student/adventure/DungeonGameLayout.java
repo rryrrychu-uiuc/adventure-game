@@ -17,6 +17,7 @@ public class DungeonGameLayout {
     private String endingRoomName;
     private String gameType;
     private ArrayList<Room> rooms;
+    private ArrayList<Achievement> achievements;
 
     public String getStartingRoomName() {
         return startingRoomName;
@@ -32,6 +33,10 @@ public class DungeonGameLayout {
 
     public ArrayList<Room> getRooms() {
         return rooms;
+    }
+
+    public ArrayList<Achievement> getAchievements() {
+        return achievements;
     }
 
     /**
