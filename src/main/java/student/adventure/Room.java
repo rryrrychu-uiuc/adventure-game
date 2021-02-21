@@ -66,11 +66,16 @@ public class Room {
 
     //checks if the inventory contains all of the requiredItems
     public boolean hasRequiredItems(ArrayList<Item> inventory) {
-        return inventory.containsAll(requiredItems);
+
+        return Item.containsAllItems(inventory, requiredItems);
     }
 
     //finds the associated roomName associated to a direction for the current room
     public String findRoomName(String directionName) {
+
+        if(directions == null) {
+            return null;
+        }
 
         for (Direction targetDirection : directions) {
             if (targetDirection.getDirectionName().equals(directionName)) {
@@ -86,10 +91,12 @@ public class Room {
     private String listDirections() {
 
         StringBuilder toReturn = new StringBuilder("From here, you can go:");
-        for (Direction targetDirection : directions) {
-            toReturn.append(" ");
-            toReturn.append(targetDirection.getDirectionName());
-            toReturn.append(",");
+        if(directions != null) {
+            for (Direction targetDirection : directions) {
+                toReturn.append(" ");
+                toReturn.append(targetDirection.getDirectionName());
+                toReturn.append(",");
+            }
         }
 
         int lastChar = toReturn.lastIndexOf(",");
@@ -104,10 +111,12 @@ public class Room {
     private String listItems() {
 
         StringBuilder toReturn = new StringBuilder("Items Visible:");
-        for (Item targetItem : items) {
-            toReturn.append(" ");
-            toReturn.append(targetItem.getItemName());
-            toReturn.append(",");
+        if(items != null) {
+            for (Item targetItem : items) {
+                toReturn.append(" ");
+                toReturn.append(targetItem.getItemName());
+                toReturn.append(",");
+            }
         }
 
         int lastChar = toReturn.lastIndexOf(",");

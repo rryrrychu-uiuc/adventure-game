@@ -310,7 +310,7 @@
       "directions": [
         {
           "directionName": "Leave the dungeon",
-          "roomName": "You have escaped the dungeon! Congratulations!"
+          "roomName": "End Room"
         }
       ],
       "items": [],

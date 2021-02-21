@@ -1,5 +1,7 @@
 package student.adventure;
 
+import student.server.Command;
+
 import java.util.Scanner;
 
 /**
@@ -28,17 +30,18 @@ public class DungeonGameUI {
             System.out.print("> ");
             String commandLine = input.nextLine();
 
-            String[] splitCommand = cleanCommandAndArguments(commandLine);
-            commandOutput = gameEngine.inputCommand(splitCommand[0], splitCommand[1]);
+            Command cleanedCommand = cleanCommand(commandLine);
+            commandOutput = gameEngine.inputCommand(cleanedCommand);
 
             System.out.println("\n" + commandOutput + "\n");
         }
     }
 
     //cleans the user input of whitespace and letter casing
-    public String[] cleanCommandAndArguments(String input) {
+    public Command cleanCommand(String input) {
 
         input = input.trim().toLowerCase();
+
         String[] inputArgs = input.split("\\s+");
 
         StringBuilder arguments = new StringBuilder();
@@ -48,6 +51,6 @@ public class DungeonGameUI {
             arguments.append(" ");
         }
 
-        return new String[]{inputArgs[0], arguments.toString().trim()};
+        return new Command(inputArgs[0].trim(), arguments.toString().trim());
     }
 }

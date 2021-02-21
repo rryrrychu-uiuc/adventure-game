@@ -49,6 +49,15 @@ public class DungeonGameLayout {
     }
 
     /**
+     * Obtains the room object of the name of the ending room given in the layout.
+     *
+     * @return the room whose name matches the instance variable endingRoomName
+     */
+    public Room getEndingRoom() {
+        return searchForTargetRoom(endingRoomName);
+    }
+
+    /**
      * Finds a room given a name.
      *
      * @param roomName the room of the name wanted to be found
@@ -60,6 +69,7 @@ public class DungeonGameLayout {
                 return targetRoom;
             }
         }
+
         return null;
     }
 }

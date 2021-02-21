@@ -1,6 +1,7 @@
 package student.adventure;
 
 import com.google.gson.Gson;
+import student.server.Command;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -16,15 +17,19 @@ import java.util.HashMap;
  */
 public class DungeonGameEngine {
 
-    private final String restartGameFilePath;
+    private final String RESTART_GAME_FILE_PATH;
+    private final String ESCAPE_MESSAGE = "You have escaped the dungeon! Congratulations!";
     private Room currentRoom;
     private DungeonGameLayout mapLayout;
     private ArrayList<Item> inventory;
 
+    public static int INSTANCE_ID = 0;
+
     public DungeonGameEngine(String path) {
 
-        restartGameFilePath = path;
+        RESTART_GAME_FILE_PATH = path;
         loadGame();
+        DungeonGameEngine.INSTANCE_ID++;
     }
 
     public Room getCurrentRoom() {
@@ -38,24 +43,27 @@ public class DungeonGameEngine {
     /**
      * Given a valid command, preform the task associated with the command
      *
-     * @param commandName      the desired command to preform
-     * @param commandArguments additional parameters associated with the command
+     * @param targetCommand the command that is supposed to be run
      * @return a string containing result of the desired task
      */
-    public String inputCommand(String commandName, String commandArguments) {
+    public String inputCommand(Command targetCommand) {
 
-        switch (commandName) {
+        if(targetCommand == null) {
+            return "CommandError: Command cannot be null";
+        }
+
+        switch (targetCommand.getCommandName()) {
             case "quit":
             case "exit":
                 return "Goodbye!";
             case "examine":
                 return examineRoom();
             case "go":
-                return moveRooms(commandArguments);
+                return moveRooms(targetCommand.getCommandValue());
             case "take":
-                return takeItem(commandArguments, currentRoom.getItems());
+                return takeItem(targetCommand.getCommandValue(), currentRoom.getItems());
             case "drop":
-                return dropItem(commandArguments, inventory);
+                return dropItem(targetCommand.getCommandValue(), inventory);
             case "unlock":
                 return unlockRoom();
             case "inventory":
@@ -63,7 +71,7 @@ public class DungeonGameEngine {
             case "restart":
                 return restartGame();
             default:
-                return "CommandError: '" + commandName + commandArguments + "' is not a valid command";
+                return "CommandError: '" + targetCommand + "' is not a valid command";
         }
     }
 
@@ -80,8 +88,8 @@ public class DungeonGameEngine {
             return "Cannot leave the room. The room is locked.";
         }
 
-        if (directionName.equals("leave the dungeon")) {
-            return currentRoom.findRoomName(directionName) + "\n" + getObtainedAchievements();
+        if (directionName.equals("leave the dungeon") && currentRoom.equals(mapLayout.getEndingRoom())) {
+            return ESCAPE_MESSAGE + "\n" + getObtainedAchievements();
         }
 
         String roomName = currentRoom.findRoomName(directionName);
@@ -123,6 +131,10 @@ public class DungeonGameEngine {
 
     //finds an item given the itemName and where to look
     private Item findItem(String itemName, ArrayList<Item> itemLocation) {
+
+        if(itemLocation == null) {
+            return null;
+        }
 
         for (Item targetItem : itemLocation) {
             if (targetItem.getItemName().equals(itemName)) {
@@ -181,15 +193,10 @@ public class DungeonGameEngine {
 
         Gson gson = new Gson();
         try {
-            Reader jsonFile = Files.newBufferedReader(Paths.get(restartGameFilePath));
+            Reader jsonFile = Files.newBufferedReader(Paths.get(RESTART_GAME_FILE_PATH));
 
             mapLayout = gson.fromJson(jsonFile, DungeonGameLayout.class);
-
-            //ensures the json map that is read is the correct type
-            String mapType = mapLayout.getGameType();
-            if (mapType == null || !mapType.equals("dungeonGame")) {
-                throw new IllegalArgumentException("JSON file does not fit the schema of this game");
-            }
+            DungeonGameLayoutValidator.validateDeserialization(mapLayout);
 
         } catch (IOException e) {
             throw new IllegalArgumentException("Path is invalid");
@@ -203,6 +210,10 @@ public class DungeonGameEngine {
 
     //Notifies the player of any achievements they may have gotten from collecting items
     private String getObtainedAchievements() {
+
+        if(mapLayout.getAchievements() == null) {
+            return "";
+        }
 
         StringBuilder toReturn = new StringBuilder("Obtained Achievements:");
 
@@ -229,5 +240,13 @@ public class DungeonGameEngine {
         }
 
         return toReturn.toString();
+    }
+
+    public static void resetID() {
+        INSTANCE_ID = 0;
+    }
+
+    public static int getInstanceId() {
+        return INSTANCE_ID;
     }
 }

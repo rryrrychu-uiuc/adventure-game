@@ -2,6 +2,8 @@ package student.adventure;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * Item is a storage object that store specific stats about an item
  *
@@ -34,5 +36,23 @@ public class Item {
         }
 
         return false;
+    }
+
+    /**
+     * Checks to see if all of the items in the subset are also in the larger set
+     * @param baseItemSet the set of items to compare with
+     * @param subItemSet the subset of items to be examined
+     * @return false if the base set is null, true if the subset is null, true if all of the items in the subset
+     *         are in the base set
+     */
+    public static boolean containsAllItems(ArrayList<Item> baseItemSet, ArrayList<Item> subItemSet) {
+
+        if(baseItemSet == null) {
+            return false;
+        } else if(subItemSet == null) {
+            return true;
+        }
+
+        return baseItemSet.containsAll(subItemSet);
     }
 }
