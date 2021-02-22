@@ -3,6 +3,29 @@
   "endingRoom": "Doghouse",
   "gameType": "dungeonGame",
   "rooms": [
+      {
+      "description": "Test Room",
+      "directions": [
+        {
+          "directionName": "left",
+          "roomName": "Cathouse"
+        }
+      ],
+      "items": [
+        {
+          "name": "waterbottle",
+          "description": "Its a water bottle.",
+          "itemType": "waterItem"
+        },
+        {
+          "name": "Pentel Energel Black Pen",
+          "description": "Super nice pen.",
+          "itemType": "penItem"
+        }
+      ],
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
+    },
     {
       "name": "Cathouse",
       "description": "Test Room",
@@ -49,13 +72,6 @@
           "itemType": "penItem"
         }
       ]
-    }
-  ],
-  "achievements" : [
-    {
-      "itemType" : "penItem",
-      "minRequiredItems": 1,
-      "message": "You are a Stationary Addict!!! You'll pick up any stationary you find... anywhere."
     }
   ]
 }

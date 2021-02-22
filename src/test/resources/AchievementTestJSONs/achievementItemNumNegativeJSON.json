@@ -51,10 +51,10 @@
       ]
     }
   ],
-  "achievements" : [
+  "achievements": [
     {
-      "itemType" : "penItem",
-      "minRequiredItems": 1,
+      "itemType": "penItem",
+      "minRequiredItems": -1,
       "message": "You are a Stationary Addict!!! You'll pick up any stationary you find... anywhere."
     }
   ]

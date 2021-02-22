@@ -1,7 +1,6 @@
 package student.adventure;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class DungeonGameLayoutValidator {
 
@@ -11,11 +10,11 @@ public class DungeonGameLayoutValidator {
 
         checkRoomsExist(targetLayout);
 
+        checkValidRoomStats(targetLayout);
+
         checkValidStartingRoomName(targetLayout);
 
         checkValidEndingRoomName(targetLayout);
-
-        checkValidRoomStats(targetLayout);
 
         checkValidAchievements(targetLayout);
     }
@@ -87,7 +86,7 @@ public class DungeonGameLayoutValidator {
     //Checks to make sure a room has valid directions
     private static void checkValidDirection(DungeonGameLayout targetLayout, Room targetRoom) {
 
-        if(targetRoom.getDirections() == null) {
+        if(targetRoom.getDirections() == null || targetRoom.getDirections().size() == 0) {
             return;
         }
 
@@ -101,9 +100,10 @@ public class DungeonGameLayoutValidator {
             String targetDirectionRoom = targetDirection.getRoomName();
             if(targetDirectionRoom == null || targetDirectionRoom.length() == 0) {
                 throw new IllegalArgumentException("A direction does not have an associated room.");
-            } else if(!targetLayout.getRooms().contains(targetRoom)) {
+            } else if(targetLayout.searchForTargetRoom(targetDirectionRoom) == null) {
                 throw new IllegalArgumentException("A direction's room does not exist.");
             }
+
         }
     }
 

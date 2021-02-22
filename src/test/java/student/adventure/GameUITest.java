@@ -2,8 +2,9 @@ package student.adventure;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import student.server.Command;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class GameUITest {
 
@@ -16,21 +17,21 @@ public class GameUITest {
 
     @Test
     public void testIfCommandContainsExtraWhiteSpace() {
-        String[] expectedResult = {"cmd", "why is there bad whitespace"};
+        Command expectedResult = new Command("cmd", "why is there bad whitespace");
 
-        String[] actualResult =
-                testUI.cleanCommandAndArguments("   cmd         why   is   there    bad whitespace       ");
+        Command actualResult =
+                testUI.cleanCommand("   cmd         why   is   there    bad whitespace       ");
 
-        assertArrayEquals(expectedResult, actualResult);
+        assertEquals(expectedResult, actualResult);
     }
 
     @Test
     public void testIfCommandIsCaseSensitive() {
-        String[] expectedResult = {"water", "is not a virus or a command"};
+        Command expectedResult = new Command("water", "is not a virus or a command");
 
-        String[] actualResult =
-                testUI.cleanCommandAndArguments("wAtEr IS nOT a ViRus OR A COMMaND");
+        Command actualResult =
+                testUI.cleanCommand("wAtEr IS nOT a ViRus OR A COMMaND");
 
-        assertArrayEquals(expectedResult, actualResult);
+        assertEquals(expectedResult, actualResult);
     }
 }

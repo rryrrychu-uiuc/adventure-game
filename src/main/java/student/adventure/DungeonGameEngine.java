@@ -196,11 +196,12 @@ public class DungeonGameEngine {
             Reader jsonFile = Files.newBufferedReader(Paths.get(RESTART_GAME_FILE_PATH));
 
             mapLayout = gson.fromJson(jsonFile, DungeonGameLayout.class);
-            DungeonGameLayoutValidator.validateDeserialization(mapLayout);
 
         } catch (IOException e) {
             throw new IllegalArgumentException("Path is invalid");
         }
+
+        DungeonGameLayoutValidator.validateDeserialization(mapLayout);
 
         currentRoom = mapLayout.getStartingRoom();
         inventory = new ArrayList<>();

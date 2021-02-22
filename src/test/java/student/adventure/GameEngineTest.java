@@ -2,6 +2,7 @@ package student.adventure;
 
 import org.junit.Before;
 import org.junit.Test;
+import student.server.Command;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,58 +15,95 @@ public class GameEngineTest {
         testEngine = new DungeonGameEngine("src/test/resources/validTestJSON.json");
     }
 
-    //Test proper GSON error handling
+    //Testing invalid command
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testInvalidJSONPath() {
-        DungeonGameEngine testGame = new DungeonGameEngine("waterfile");
+    @Test
+    public void testNonexistentCommand() {
+        Command testBadCommand = new Command("fly", "the airplane");
+
+        String expectedResult = "CommandError: '" + testBadCommand + "' is not a valid command";
+        String actualResult = testEngine.inputCommand(testBadCommand);
+
+        assertEquals(expectedResult, actualResult);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testEmptyJSONFile() {
-        DungeonGameEngine testGame = new DungeonGameEngine("src/test/resources/emptyfile.json");
-    }
+    @Test
+    public void testNullCommand() {
+        Command testBadCommand = null;
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testInvalidJSONSchema() {
-        DungeonGameEngine testGame = new DungeonGameEngine("src/main/resources/siebel.json");
+        String expectedResult = "CommandError: Command cannot be null";
+        String actualResult = testEngine.inputCommand(testBadCommand);
+
+        assertEquals(expectedResult, actualResult);
     }
 
     //Testing quit command
 
     @Test
     public void testValidQuitCommand() {
-        assertEquals("Goodbye!", testEngine.inputCommand("quit", ""));
+        assertEquals("Goodbye!", testEngine.inputCommand(new Command("quit", "")));
+    }
+
+    @Test
+    public void testInvalidPartialQuitCommand() {
+
+        Command invalidQuitCommand =  new Command("quite", "watery");
+        String expectedResult = "CommandError: '" + invalidQuitCommand + "' is not a valid command";
+
+        assertEquals(expectedResult, testEngine.inputCommand(invalidQuitCommand));
     }
 
     //Testing exit command
 
     @Test
     public void testValidExitCommand() {
-        assertEquals("Goodbye!", testEngine.inputCommand("exit", ""));
+        assertEquals("Goodbye!", testEngine.inputCommand(new Command("exit", "")));
+    }
+
+    @Test
+    public void testInvalidPartialExitCommand() {
+
+        Command invalidQuitCommand =  new Command("exited", "watery");
+        String expectedResult = "CommandError: '" + invalidQuitCommand + "' is not a valid command";
+
+        assertEquals(expectedResult, testEngine.inputCommand(invalidQuitCommand));
     }
 
     //Testing examine command
 
     @Test
     public void testValidExamineCommand() {
-        String expectedResult = "===Cathouse===\n" +
-                "Test Room\n" +
-                "\n" +
-                "From here, you can go: forward\n" +
-                "Items Visible: waterbottle, pentel energel black pen";
-        String actualResult = testEngine.inputCommand("examine", "");
+        String expectedResult = "===Cathouse===\nTest Room\n\nFrom here, you can go: forward\nItems Visible: waterbottle, pentel energel black pen";
+        String actualResult = testEngine.inputCommand(new Command("examine", ""));
 
         assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void testInvalidPartialExamineCommand() {
+
+        Command invalidQuitCommand =  new Command("exam", "watery");
+        String expectedResult = "CommandError: '" + invalidQuitCommand + "' is not a valid command";
+
+        assertEquals(expectedResult, testEngine.inputCommand(invalidQuitCommand));
     }
 
     //Testing go command
 
     @Test
     public void testValidGoCommand() {
-        testEngine.inputCommand("go", "forward");
+        testEngine.inputCommand(new Command("go", "forward"));
 
         assert (testEngine.getCurrentRoom().getRoomName().equals("Doghouse"));
+    }
+
+    @Test
+    public void testInvalidPartialGoCommand() {
+
+        Command invalidQuitCommand =  new Command("goat", "watery");
+        String expectedResult = "CommandError: '" + invalidQuitCommand + "' is not a valid command";
+
+        assertEquals(expectedResult, testEngine.inputCommand(invalidQuitCommand));
     }
 
     @Test
@@ -73,17 +111,17 @@ public class GameEngineTest {
         String testargument = "to the moon";
 
         String expectedResult = "Cannot go in the direction '" + testargument + "'";
-        String actualResult = testEngine.inputCommand("go", "to the moon");
+        String actualResult = testEngine.inputCommand(new Command("go", "to the moon"));
 
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     public void testLockedRoomGoCommand() {
-        testEngine.inputCommand("go", "forward");
+        testEngine.inputCommand(new Command("go", "forward"));
 
         String expectedResult = "Cannot leave the room. The room is locked.";
-        String actualResult = testEngine.inputCommand("go", "backwards");
+        String actualResult = testEngine.inputCommand(new Command("go", "backwards"));
 
         assertEquals(expectedResult, actualResult);
     }
@@ -92,18 +130,27 @@ public class GameEngineTest {
 
     @Test
     public void testValidInventoryCommand() {
-        testEngine.inputCommand("take", "waterbottle");
-        testEngine.inputCommand("take", "pentel energel black pen");
+        testEngine.inputCommand(new Command("take", "waterbottle"));
+        testEngine.inputCommand(new Command("take", "pentel energel black pen"));
 
         String expectedResult = "Inventory: waterbottle, pentel energel black pen";
-        String actualResult = testEngine.inputCommand("inventory", "");
+        String actualResult = testEngine.inputCommand(new Command("inventory", ""));
 
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
+    public void testInvalidPartialInventoryCommand() {
+
+        Command invalidQuitCommand =  new Command("inventorial", "watery");
+        String expectedResult = "CommandError: '" + invalidQuitCommand + "' is not a valid command";
+
+        assertEquals(expectedResult, testEngine.inputCommand(invalidQuitCommand));
+    }
+
+    @Test
     public void testEmptyInventoryCommand() {
-        String actualResult = testEngine.inputCommand("inventory", "");
+        String actualResult = testEngine.inputCommand(new Command("inventory", ""));
 
         assertEquals("Inventory: (nothing)", actualResult);
     }
@@ -114,18 +161,27 @@ public class GameEngineTest {
     public void testValidTakeCommand() {
         String itemName = "waterbottle";
         String expectedResult = "Its a water bottle.";
-        String actualResult = testEngine.inputCommand("take", itemName);
+        String actualResult = testEngine.inputCommand(new Command("take", itemName));
 
         //tests the correct output, if the inventory contains has the item, and the room does not contain the item
         assertEquals(expectedResult, actualResult);
         assert (!testEngine.getCurrentRoom().toString().contains(itemName));
-        assert (testEngine.inputCommand("inventory", "").contains(itemName));
+        assert (testEngine.inputCommand(new Command("inventory", "")).contains(itemName));
+    }
+
+    @Test
+    public void testInvalidPartialTakeCommand() {
+
+        Command invalidQuitCommand =  new Command("taken", "watery");
+        String expectedResult = "CommandError: '" + invalidQuitCommand + "' is not a valid command";
+
+        assertEquals(expectedResult, testEngine.inputCommand(invalidQuitCommand));
     }
 
     @Test
     public void testInValidTakeCommand() {
         String expectedResult = "Room does not contain ''";
-        String actualResult = testEngine.inputCommand("take", "");
+        String actualResult = testEngine.inputCommand(new Command("take", ""));
 
         assertEquals(expectedResult, actualResult);
     }
@@ -136,26 +192,35 @@ public class GameEngineTest {
     public void testValidDropCommand() {
         String testItem = "pentel energel black pen";
 
-        testEngine.inputCommand("take", "pentel energel black pen");
-        testEngine.inputCommand("take", "waterbottle");
-        testEngine.inputCommand("go", "forward");
-        testEngine.inputCommand("drop", "pentel energel black pen");
+        testEngine.inputCommand(new Command("take", "pentel energel black pen"));
+        testEngine.inputCommand(new Command("take", "waterbottle"));
+        testEngine.inputCommand(new Command("go", "forward"));
+        testEngine.inputCommand(new Command("drop", "pentel energel black pen"));
 
         //properly checks if the item is in the room because examine command prints all of the items in the room out
         //so if the item is properly dropped, it shows up in examine
-        assert (testEngine.inputCommand("examine", "").contains(testItem));
+        assert (testEngine.inputCommand(new Command("examine", "")).contains(testItem));
         //also makes sure that the item doesn't show up in the inventory
-        assert (!testEngine.inputCommand("inventory", "").contains(testItem));
+        assert (!testEngine.inputCommand(new Command("inventory", "")).contains(testItem));
+    }
+
+    @Test
+    public void testInvalidPartialDropCommand() {
+
+        Command invalidQuitCommand =  new Command("droplet", "watery");
+        String expectedResult = "CommandError: '" + invalidQuitCommand + "' is not a valid command";
+
+        assertEquals(expectedResult, testEngine.inputCommand(invalidQuitCommand));
     }
 
     @Test
     public void testInvalidDropCommand() {
         String testItem = "pentel energel black pen";
 
-        testEngine.inputCommand("take", "waterbottle");
+        testEngine.inputCommand(new Command("take", "waterbottle"));
 
         String expectResult = "Inventory does not contain '" + testItem + "'";
-        String actualResult = testEngine.inputCommand("drop", "pentel energel black pen");
+        String actualResult = testEngine.inputCommand(new Command("drop", "pentel energel black pen"));
 
         assertEquals(expectResult, actualResult);
     }
@@ -164,32 +229,42 @@ public class GameEngineTest {
 
     @Test
     public void testValidUnlockCommand() {
-        testEngine.inputCommand("take", "waterbottle");
-        testEngine.inputCommand("take", "pentel energel black pen");
-        testEngine.inputCommand("go", "forward");
+        testEngine.inputCommand(new Command("take", "waterbottle"));
+        testEngine.inputCommand(new Command("take", "pentel energel black pen"));
+        testEngine.inputCommand(new Command("go", "forward"));
 
+        System.out.println(testEngine.getCurrentRoom());
         String expectedResult = "Room unlocked! You may now *go* in any valid direction and leave the room.";
-        String actualResult = testEngine.inputCommand("unlock", "");
+        String actualResult = testEngine.inputCommand(new Command("unlock", ""));
 
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
+    public void testInvalidPartialUnlockCommand() {
+
+        Command invalidQuitCommand =  new Command("unlocked", "watery");
+        String expectedResult = "CommandError: '" + invalidQuitCommand + "' is not a valid command";
+
+        assertEquals(expectedResult, testEngine.inputCommand(invalidQuitCommand));
+    }
+
+    @Test
     public void testInvalidItemsUnlockCommand() {
         String expectedResult = "Room is not locked.";
-        String actualResult = testEngine.inputCommand("unlock", "");
+        String actualResult = testEngine.inputCommand(new Command("unlock", ""));
 
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     public void testInvalidRoomUnlockCommand() {
-        testEngine.inputCommand("take", "waterbottle");
-        testEngine.inputCommand("go", "forward");
+        testEngine.inputCommand(new Command("take", "waterbottle"));
+        testEngine.inputCommand(new Command("go", "forward"));
 
         String expectedResult = "You do not have the necessary items to *unlock* the doors in this room. "
                 + "You must *restart* the game";
-        String actualResult = testEngine.inputCommand("unlock", "");
+        String actualResult = testEngine.inputCommand(new Command("unlock", ""));
 
         assertEquals(expectedResult, actualResult);
     }
@@ -198,34 +273,30 @@ public class GameEngineTest {
 
     @Test
     public void testValidRestartCommand() {
-        testEngine.inputCommand("restart", "");
+        testEngine.inputCommand(new Command("restart", ""));
 
         assertEquals(testEngine.getStartingRoom(), testEngine.getCurrentRoom());
     }
 
-    //Testing invalid command
-
     @Test
-    public void testNonexistentCommand() {
-        String invalidCommand = "fly";
-        String invalidArgument = "the airplane";
+    public void testInvalidPartialRestartCommand() {
 
-        String expectedResult = "CommandError: '" + invalidCommand + invalidArgument + "' is not a valid command";
-        String actualResult = testEngine.inputCommand(invalidCommand, invalidArgument);
+        Command invalidQuitCommand =  new Command("restarted", "watery");
+        String expectedResult = "CommandError: '" + invalidQuitCommand + "' is not a valid command";
 
-        assertEquals(expectedResult, actualResult);
+        assertEquals(expectedResult, testEngine.inputCommand(invalidQuitCommand));
     }
 
     //Testing achievements
 
     @Test
     public void testValidAchievement() {
-        testEngine.inputCommand("take", "pentel energel black pen");
-        testEngine.inputCommand("go", "forward");
-        testEngine.inputCommand("unlock", "");
+        testEngine.inputCommand(new Command("take", "pentel energel black pen"));
+        testEngine.inputCommand(new Command("go", "forward"));
+        testEngine.inputCommand(new Command("unlock", ""));
 
         String expectedResult = "You have escaped the dungeon! Congratulations!\nObtained Achievements:\nYou are a Stationary Addict!!! You'll pick up any stationary you find... anywhere.";
-        String actualResult = testEngine.inputCommand("go", "leave the dungeon");
+        String actualResult = testEngine.inputCommand(new Command("go", "leave the dungeon"));
 
         assertEquals(expectedResult, actualResult);
     }
