@@ -20,7 +20,7 @@ public class GameUITest {
         Command expectedResult = new Command("cmd", "why is there bad whitespace");
 
         Command actualResult =
-                testUI.cleanCommand("   cmd         why   is   there    bad whitespace       ");
+                testUI.cleanCommand("   cmd\twhy   is   there    bad whitespace       ");
 
         assertEquals(expectedResult, actualResult);
     }
