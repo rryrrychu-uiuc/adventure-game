@@ -32,7 +32,7 @@ public class Item {
         }
 
         for (Item targetItem : itemLocation) {
-            if (targetItem.getItemName().equals(itemName)) {
+            if (targetItem.getItemName().equalsIgnoreCase(itemName)) {
                 return targetItem;
             }
         }
@@ -84,7 +84,7 @@ public class Item {
 
     public String getItemName() {
 
-        return itemName.toLowerCase();
+        return itemName;
     }
 
     public String getItemDescription() {
@@ -101,7 +101,7 @@ public class Item {
     public boolean equals(Object o) {
 
         if (o instanceof Item toCompare) {
-            return itemName.equals(toCompare.itemName) && itemType.equals(toCompare.itemType);
+            return itemName.equalsIgnoreCase(toCompare.itemName) && itemType.equalsIgnoreCase(toCompare.itemType);
         }
 
         return false;

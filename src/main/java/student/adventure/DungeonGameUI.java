@@ -12,7 +12,7 @@ import java.util.Scanner;
  */
 public class DungeonGameUI {
 
-  private final String ESCAPED_DUNGEON = "You have escaped the dungeon! Enjoy your freedom!";
+  private final String ESCAPED_DUNGEON = "You have escaped the dungeon! Congratulations!";
   private final String EXIT_GAME = "Goodbye!";
   private final DungeonGameEngine gameEngine;
 
@@ -26,7 +26,7 @@ public class DungeonGameUI {
     Scanner input = new Scanner(System.in);
 
     String commandOutput = "";
-    while (!commandOutput.equals(EXIT_GAME) && !commandOutput.equals(ESCAPED_DUNGEON)) {
+    while (!commandOutput.contains(EXIT_GAME) && !commandOutput.contains(ESCAPED_DUNGEON)) {
 
       System.out.print("> ");
       String commandLine = input.nextLine();

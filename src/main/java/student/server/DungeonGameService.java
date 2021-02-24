@@ -13,6 +13,7 @@ public class DungeonGameService implements AdventureService {
 
   @Override
   public void reset() {
+
     DungeonGameEngine.resetID();
     instancesOfGame.clear();
   }

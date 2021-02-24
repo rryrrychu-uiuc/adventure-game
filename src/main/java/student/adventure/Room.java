@@ -3,6 +3,7 @@ package student.adventure;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Room is a storage object that maintains different stats about a certain room
@@ -81,7 +82,7 @@ public class Room {
         }
 
         for (Direction targetDirection : directions) {
-            if (targetDirection.getDirectionName().equals(directionName)) {
+            if (targetDirection.getDirectionName().equalsIgnoreCase(directionName)) {
 
                 return targetDirection.getRoomName();
             }
@@ -146,8 +147,8 @@ public class Room {
     public boolean equals(Object o) {
 
         if (o instanceof Room targetRoom) {
-            boolean nameIsEqual = roomName.equals(targetRoom.roomName);
-            boolean descriptionIsEqual = roomDescription.equals(targetRoom.roomDescription);
+            boolean nameIsEqual = roomName.equalsIgnoreCase(targetRoom.roomName);
+            boolean descriptionIsEqual = roomDescription.equalsIgnoreCase(targetRoom.roomDescription);
             boolean directionsAreEqual = directions.equals(targetRoom.directions);
             boolean itemsAreEqual = items.equals(targetRoom.items);
             boolean willLockIsEqual = willLock == targetRoom.willLock;

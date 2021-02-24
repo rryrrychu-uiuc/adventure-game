@@ -24,7 +24,7 @@ public class Direction {
     public boolean equals(Object o) {
 
         if(o instanceof Direction targetDirection) {
-            return directionName.equals(targetDirection.directionName) && roomName.equals(targetDirection.roomName);
+            return directionName.equalsIgnoreCase(targetDirection.directionName) && roomName.equalsIgnoreCase(targetDirection.roomName);
         }
 
         return false;

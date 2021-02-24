@@ -37,7 +37,7 @@
         },
         {
           "directionName": "Leave the dungeon",
-          "roomName": "Doghouse"
+          "roomName": "Finished Game Room"
         }
       ],
       "items": [],
@@ -49,6 +49,14 @@
           "itemType": "penItem"
         }
       ]
+    },
+    {
+      "name": "Finished Game Room",
+      "description": "You have won the game!",
+      "directions": [],
+      "items": [],
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
     }
   ],
   "achievements" : [

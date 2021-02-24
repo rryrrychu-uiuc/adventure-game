@@ -13,263 +13,274 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * DungeonGameEngine maintains most of the logic that interacts and changes the room based on what a player does
+ * DungeonGameEngine maintains most of the logic that interacts and changes the room based on what a
+ * player does
  *
  * @author Harry Chu
  */
 public class DungeonGameEngine {
 
-    private final String RESTART_GAME_FILE_PATH;
-    private final String ESCAPE_MESSAGE = "You have escaped the dungeon! Congratulations!";
-    private final String ESCAPE_COMMAND = "Leave the dungeon";
+  // Possible commands
+  private static final String QUIT_CMD = "quit";
+  private static final String EXIT_CMD = "exit";
+  private static final String EXAMINE_CMD = "examine";
+  private static final String GO_CMD = "go";
+  private static final String TAKE_CMD = "take";
+  private static final String DROP_CMD = "drop";
+  private static final String UNLOCK_CMD = "unlock";
+  private static final String INVENTORY_CMD = "inventory";
+  private static final String RESTART_CMD = "restart";
+  private static final List<String> POSSIBLE_COMMANDS =
+      Arrays.asList(
+              QUIT_CMD,
+              EXIT_CMD,
+              EXAMINE_CMD,
+              GO_CMD,
+              TAKE_CMD,
+              DROP_CMD,
+              UNLOCK_CMD,
+              INVENTORY_CMD,
+              RESTART_CMD);
 
-    //Possible commands
-    private static final String QUIT_CMD = "quit";
-    private static final String EXIT_CMD = "exit";
-    private static final String EXAMINE_CMD = "examine";
-    private static final String GO_CMD = "go";
-    private static final String TAKE_CMD = "take";
-    private static final String DROP_CMD = "drop";
-    private static final String UNLOCK_CMD = "unlock";
-    private static final String INVENTORY_CMD = "inventory";
-    private static final String RESTART_CMD = "restart";
-    private static final List<String> POSSIBLE_COMMANDS = Arrays.asList(new String[]{QUIT_CMD, EXIT_CMD, EXAMINE_CMD, GO_CMD, TAKE_CMD, DROP_CMD, UNLOCK_CMD, INVENTORY_CMD, RESTART_CMD});
+  public static int INSTANCE_ID = 0;
+  private final String RESTART_GAME_FILE_PATH;
+  private final String ESCAPE_MESSAGE = "You have escaped the dungeon! Congratulations!";
+  private final String ESCAPE_COMMAND = "leave the dungeon";
 
-    private Room currentRoom;
-    private DungeonGameLayout mapLayout;
-    private ArrayList<Item> inventory;
-    private boolean hasError = false;
-    private String outputMessage;
+  private Room currentRoom;
+  private DungeonGameLayout mapLayout;
+  private ArrayList<Item> inventory;
+  private boolean hasError = false;
+  private String outputMessage;
 
-    public static int INSTANCE_ID = 0;
+  public DungeonGameEngine(String path) {
 
-    public DungeonGameEngine(String path) {
+    RESTART_GAME_FILE_PATH = path;
+    loadGame();
+    outputMessage = currentRoom.toString();
+    DungeonGameEngine.INSTANCE_ID++;
+  }
 
-        RESTART_GAME_FILE_PATH = path;
-        loadGame();
-        outputMessage = currentRoom.toString();
-        DungeonGameEngine.INSTANCE_ID++;
+  public static void resetID() {
+
+    INSTANCE_ID = 0;
+  }
+
+  public static int getInstanceId() {
+
+    return INSTANCE_ID;
+  }
+
+  public static List<String> getPossibleCommands() {
+
+    return POSSIBLE_COMMANDS;
+  }
+
+  /**
+   * Given a valid command, preform the task associated with the command
+   *
+   * @param targetCommand the command that is supposed to be run
+   * @return a string containing result of the desired task
+   */
+  public String inputCommand(Command targetCommand) {
+
+    if (targetCommand == null) {
+      return "CommandError: Command cannot be null";
     }
 
-    /**
-     * Given a valid command, preform the task associated with the command
-     *
-     * @param targetCommand the command that is supposed to be run
-     * @return a string containing result of the desired task
-     */
-    public String inputCommand(Command targetCommand) {
+    switch (targetCommand.getCommandName()) {
+      case QUIT_CMD:
+      case EXIT_CMD:
+        return "Goodbye!";
+      case EXAMINE_CMD:
+        return examineRoom();
+      case GO_CMD:
+        return moveRooms(targetCommand.getCommandValue());
+      case TAKE_CMD:
+        return takeItem(targetCommand.getCommandValue(), currentRoom.getItems());
+      case DROP_CMD:
+        return dropItem(targetCommand.getCommandValue(), inventory);
+      case UNLOCK_CMD:
+        return unlockRoom();
+      case INVENTORY_CMD:
+        return viewInventory();
+      case RESTART_CMD:
+        return restartGame();
+      default:
+        return "CommandError: '" + targetCommand + "' is not a valid command";
+    }
+  }
 
-        if(targetCommand == null) {
-            return "CommandError: Command cannot be null";
-        }
+  // returns the stats of the current room
+  private String examineRoom() {
 
-        switch (targetCommand.getCommandName()) {
-            case QUIT_CMD:
-            case EXIT_CMD:
-                return "Goodbye!";
-            case EXAMINE_CMD:
-                return examineRoom();
-            case GO_CMD:
-                return moveRooms(targetCommand.getCommandValue());
-            case TAKE_CMD:
-                return takeItem(targetCommand.getCommandValue(), currentRoom.getItems());
-            case DROP_CMD:
-                return dropItem(targetCommand.getCommandValue(), inventory);
-            case UNLOCK_CMD:
-                return unlockRoom();
-            case INVENTORY_CMD:
-                return viewInventory();
-            case RESTART_CMD:
-                return restartGame();
-            default:
-                return "CommandError: '" + targetCommand + "' is not a valid command";
-        }
+    outputMessage = currentRoom.toString();
+    return outputMessage;
+  }
+
+  // changes the currentRoom to a new room given the direction of the new room
+  private String moveRooms(String directionName) {
+
+    if (currentRoom.isLocked()) {
+      outputMessage = "Cannot leave the room. The room is locked.";
+      return outputMessage;
     }
 
-    // returns the stats of the current room
-    private String examineRoom() {
-
-        outputMessage = currentRoom.toString();
-        return outputMessage;
+    String roomName = currentRoom.findRoomName(directionName);
+    if (roomName == null) {
+      outputMessage = "Cannot go in the direction '" + directionName + "'";
+      return outputMessage;
     }
 
-    //changes the currentRoom to a new room given the direction of the new room
-    private String moveRooms(String directionName) {
-
-        if (currentRoom.isLocked()) {
-            outputMessage = "Cannot leave the room. The room is locked.";
-            return outputMessage;
-        }
-
-        String roomName = currentRoom.findRoomName(directionName);
-        if (roomName == null) {
-            outputMessage = "Cannot go in the direction '" + directionName + "'";
-            return outputMessage;
-        }
-
-        if (directionName.equals(ESCAPE_COMMAND) && currentRoom.equals(mapLayout.getEndingRoom())) {
-            currentRoom = mapLayout.searchForTargetRoom(roomName);
-            outputMessage = ESCAPE_MESSAGE + "\n" + getObtainedAchievements();
-            return outputMessage;
-        }
-
-        currentRoom = mapLayout.searchForTargetRoom(roomName);
-        outputMessage = currentRoom.toString();
-        return outputMessage;
+    if (directionName.equalsIgnoreCase(ESCAPE_COMMAND) && currentRoom.equals(mapLayout.getEndingRoom())) {
+      currentRoom = mapLayout.searchForTargetRoom(roomName);
+      outputMessage = ESCAPE_MESSAGE + "\n" + getObtainedAchievements();
+      return outputMessage;
     }
 
-    //takes an item from the current room and adds it to the inventory
-    private String takeItem(String itemName, ArrayList<Item> itemLocation) {
+    currentRoom = mapLayout.searchForTargetRoom(roomName);
+    outputMessage = currentRoom.toString();
+    return outputMessage;
+  }
 
-        Item toTake = Item.findItem(itemName, itemLocation);
-        if (toTake == null) {
-            outputMessage = "Room does not contain '" + itemName + "'";
-            return outputMessage;
-        }
+  // takes an item from the current room and adds it to the inventory
+  private String takeItem(String itemName, ArrayList<Item> itemLocation) {
 
-        currentRoom.takeItem(toTake);
-        inventory.add(toTake);
-
-        outputMessage = toTake.getItemDescription();
-        return outputMessage;
+    Item toTake = Item.findItem(itemName, itemLocation);
+    if (toTake == null) {
+      outputMessage = "Room does not contain '" + itemName + "'";
+      return outputMessage;
     }
 
-    //takes an item from the inventory and adds it to the current room
-    private String dropItem(String itemName, ArrayList<Item> itemLocation) {
+    currentRoom.takeItem(toTake);
+    inventory.add(toTake);
 
-        Item toDrop = Item.findItem(itemName, itemLocation);
-        if (toDrop == null) {
-            return "Inventory does not contain '" + itemName + "'";
-        }
+    outputMessage = toTake.getItemDescription();
+    return outputMessage;
+  }
 
-        inventory.remove(toDrop);
-        currentRoom.addItem(toDrop);
+  // takes an item from the inventory and adds it to the current room
+  private String dropItem(String itemName, ArrayList<Item> itemLocation) {
 
-        outputMessage = "You have dropped " + toDrop.getItemName();
-        return outputMessage;
+    Item toDrop = Item.findItem(itemName, itemLocation);
+    if (toDrop == null) {
+      return "Inventory does not contain '" + itemName + "'";
     }
 
-    //unlocks the current room if its not already unlocked and the player has the necessary items
-    private String unlockRoom() {
+    inventory.remove(toDrop);
+    currentRoom.addItem(toDrop);
 
-        if (!currentRoom.isLocked()) {
-            outputMessage = "Room is not locked.";
-            return outputMessage;
-        }
+    outputMessage = "You have dropped " + toDrop.getItemName();
+    return outputMessage;
+  }
 
-        if (!currentRoom.hasRequiredItems(inventory)) {
-            outputMessage = "You do not have the necessary items to *unlock* the doors in this room. "
-                    + "You must *restart* the game";
-            return outputMessage;
-        }
+  // unlocks the current room if its not already unlocked and the player has the necessary items
+  private String unlockRoom() {
 
-        currentRoom.unlock();
-
-        outputMessage = "Room unlocked! You may now *go* in any valid direction and leave the room.";
-        return outputMessage;
+    if (!currentRoom.isLocked()) {
+      outputMessage = "Room is not locked.";
+      return outputMessage;
     }
 
-    //reloads the game from the JSON to restart the game
-    private String restartGame() {
-
-        loadGame();
-        outputMessage = currentRoom.toString() + "\n" + "Game restarted!";
-        return outputMessage;
+    if (!currentRoom.hasRequiredItems(inventory)) {
+      outputMessage =
+          "You do not have the necessary items to *unlock* the doors in this room. "
+              + "You must *restart* the game";
+      return outputMessage;
     }
 
-    //builds then returns the string containing all of the items in inventory
-    private String viewInventory() {
+    currentRoom.unlock();
 
-        StringBuilder toReturn = new StringBuilder("Inventory: ");
-        for (Item targetItem : inventory) {
-            toReturn.append(targetItem.getItemName());
-            toReturn.append(",");
-            toReturn.append(" ");
-        }
+    outputMessage = "Room unlocked! You may now *go* in any valid direction and leave the room.";
+    return outputMessage;
+  }
 
-        int lastChar = toReturn.lastIndexOf(",");
-        if (lastChar < 0) {
-            toReturn.append("(nothing)");
-            return toReturn.toString();
-        }
+  // reloads the game from the JSON to restart the game
+  private String restartGame() {
 
-        outputMessage = toReturn.substring(0, lastChar);
-        return outputMessage;
+    loadGame();
+    outputMessage = currentRoom.toString() + "\n" + "Game restarted!";
+    return outputMessage;
+  }
+
+  // builds then returns the string containing all of the items in inventory
+  private String viewInventory() {
+
+    StringBuilder toReturn = new StringBuilder("Inventory: ");
+    for (Item targetItem : inventory) {
+      toReturn.append(targetItem.getItemName());
+      toReturn.append(",");
+      toReturn.append(" ");
     }
 
-    //given the instance variable, restart the current game from the file
-    private void loadGame() {
-
-        Gson gson = new Gson();
-        try {
-            Reader jsonFile = Files.newBufferedReader(Paths.get(RESTART_GAME_FILE_PATH));
-
-            mapLayout = gson.fromJson(jsonFile, DungeonGameLayout.class);
-            DungeonGameLayoutValidator.validateDeserialization(mapLayout);
-
-        } catch (IOException e) {
-            hasError = true;
-            throw new IllegalArgumentException("Path is invalid");
-        } catch (IllegalArgumentException e) {
-            hasError = true;
-            throw e;
-        }
-
-        currentRoom = mapLayout.getStartingRoom();
-        inventory = new ArrayList<>();
+    int lastChar = toReturn.lastIndexOf(",");
+    if (lastChar < 0) {
+      toReturn.append("(nothing)");
+      return toReturn.toString();
     }
 
-    //Notifies the player of any achievements they may have gotten from collecting items
-    private String getObtainedAchievements() {
+    outputMessage = toReturn.substring(0, lastChar);
+    return outputMessage;
+  }
 
-        if(mapLayout.getAchievements() == null) {
-            outputMessage = "";
-            return outputMessage;
-        }
+  // given the instance variable, restart the current game from the file
+  private void loadGame() {
 
-        HashMap<String, Integer> numOfItemType = Item.tallyItemTypes(inventory);
+    Gson gson = new Gson();
+    try {
+      Reader jsonFile = Files.newBufferedReader(Paths.get(RESTART_GAME_FILE_PATH));
 
-        outputMessage = mapLayout.determineEarnedAchievements(numOfItemType);
-        return outputMessage;
+      mapLayout = gson.fromJson(jsonFile, DungeonGameLayout.class);
+      DungeonGameLayoutValidator.validateDeserialization(mapLayout);
+
+    } catch (IOException e) {
+      hasError = true;
+      throw new IllegalArgumentException("Path is invalid");
+    } catch (IllegalArgumentException e) {
+      hasError = true;
+      throw e;
     }
 
-    public Room getCurrentRoom() {
+    currentRoom = mapLayout.getStartingRoom();
+    inventory = new ArrayList<>();
+  }
 
-        return currentRoom;
+  // Notifies the player of any achievements they may have gotten from collecting items
+  private String getObtainedAchievements() {
+
+    if (mapLayout.getAchievements() == null) {
+      outputMessage = "";
+      return outputMessage;
     }
 
-    public Room getStartingRoom() {
+    HashMap<String, Integer> numOfItemType = Item.tallyItemTypes(inventory);
 
-        return mapLayout.getStartingRoom();
-    }
+    outputMessage = mapLayout.determineEarnedAchievements(numOfItemType);
+    return outputMessage;
+  }
 
-    public boolean hasError() {
+  public Room getCurrentRoom() {
 
-        return hasError;
-    }
+    return currentRoom;
+  }
 
-    public String getOutputMessage() {
+  public Room getStartingRoom() {
 
-        return outputMessage;
-    }
+    return mapLayout.getStartingRoom();
+  }
 
-    public ArrayList<Item> getInventory() {
+  public boolean hasError() {
 
-        return inventory;
-    }
+    return hasError;
+  }
 
-    public static void resetID() {
+  public String getOutputMessage() {
 
-        INSTANCE_ID = 0;
-    }
+    return outputMessage;
+  }
 
-    public static int getInstanceId() {
+  public ArrayList<Item> getInventory() {
 
-        return INSTANCE_ID;
-    }
-
-    public static List<String> getPossibleCommands() {
-
-        return POSSIBLE_COMMANDS;
-    }
+    return inventory;
+  }
 }
