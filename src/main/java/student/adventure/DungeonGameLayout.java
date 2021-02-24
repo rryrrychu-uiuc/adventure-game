@@ -3,6 +3,7 @@ package student.adventure;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * DungeonGameLayout is the primary object that gets deserialized for the game
@@ -20,40 +21,39 @@ public class DungeonGameLayout {
     private ArrayList<Achievement> achievements;
 
     public String getStartingRoomName() {
+
         return startingRoomName;
     }
 
     public String getEndingRoomName() {
+
         return endingRoomName;
     }
 
     public String getGameType() {
+
         return gameType;
     }
 
     public ArrayList<Room> getRooms() {
+
         return rooms;
     }
 
     public ArrayList<Achievement> getAchievements() {
+
         return achievements;
     }
 
-    /**
-     * Obtains the room object of the name of the starting room given in the layout.
-     *
-     * @return the room whose name matches the instance variable startingRoomName
-     */
+    /** Obtains the room object of the name of the starting room given in the layout. */
     public Room getStartingRoom() {
+
         return searchForTargetRoom(startingRoomName);
     }
 
-    /**
-     * Obtains the room object of the name of the ending room given in the layout.
-     *
-     * @return the room whose name matches the instance variable endingRoomName
-     */
+    /**Obtains the room object of the name of the ending room given in the layout.*/
     public Room getEndingRoom() {
+
         return searchForTargetRoom(endingRoomName);
     }
 
@@ -64,6 +64,7 @@ public class DungeonGameLayout {
      * @return the room object with the associated name
      */
     public Room searchForTargetRoom(String roomName) {
+
         for (Room targetRoom : rooms) {
             if (targetRoom.getRoomName().equals(roomName)) {
                 return targetRoom;
@@ -71,5 +72,26 @@ public class DungeonGameLayout {
         }
 
         return null;
+    }
+
+    /**
+     * Determine what achievements a player obtained given a map of collected itemTypes
+     *
+     * @param numOfItemType a map containing the amount of each type of item a player got
+     * @return a string congratulating the player for every obtained achievement
+     */
+    public String determineEarnedAchievements(Map<String, Integer> numOfItemType) {
+
+        StringBuilder toReturn = new StringBuilder("Obtained Achievements:");
+        for(Achievement targetAchievement: achievements) {
+
+            int obtainedItems = numOfItemType.get(targetAchievement.getItemType());
+            if(obtainedItems >= targetAchievement.getMinRequiredItems()) {
+                toReturn.append("\n");
+                toReturn.append(targetAchievement.getAchievementMessage());
+            }
+        }
+
+        return toReturn.toString();
     }
 }

@@ -39,4 +39,22 @@ public class Command {
     public String getPlayerName() {
         return playerName;
     }
+
+    public String toString() {
+
+        String toReturn = commandName;
+        if(commandValue != null && commandValue.length() != 0) {
+            toReturn += " " + commandValue;
+        }
+
+        return toReturn;
+    }
+
+    public boolean equals(Object o) {
+        if(o instanceof Command targetCommand) {
+            return commandName.equals(targetCommand.commandName) && commandValue.equals(targetCommand.commandValue);
+        }
+
+        return false;
+    }
 }

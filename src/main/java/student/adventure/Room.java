@@ -25,41 +25,44 @@ public class Room {
     private ArrayList<Item> requiredItems;
 
     public String getRoomName() {
+
         return roomName;
     }
 
     public String getRoomDescription() {
+
         return roomDescription;
     }
 
     public ArrayList<Direction> getDirections() {
+
         return directions;
     }
 
     public ArrayList<Item> getItems() {
+
         return items;
     }
 
     public boolean isLocked() {
+
         return willLock;
     }
 
     public ArrayList<Item> getRequiredItems() {
+
         return requiredItems;
     }
 
-    //removes an item from the room
     public void takeItem(Item toTake) {
 
         items.remove(toTake);
     }
 
-    //adds the given item to the room
     public void addItem(Item toAdd) {
         items.add(toAdd);
     }
 
-    //changes willLock to false
     public void unlock() {
         willLock = false;
     }
@@ -141,6 +144,7 @@ public class Room {
 
     @Override
     public boolean equals(Object o) {
+
         if (o instanceof Room targetRoom) {
             boolean nameIsEqual = roomName.equals(targetRoom.roomName);
             boolean descriptionIsEqual = roomDescription.equals(targetRoom.roomDescription);

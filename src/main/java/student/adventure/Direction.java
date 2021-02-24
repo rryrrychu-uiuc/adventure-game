@@ -11,15 +11,18 @@ public class Direction {
     private String roomName;
 
     public String getDirectionName() {
+
         return directionName;
     }
 
     public String getRoomName() {
+
         return roomName;
     }
 
     @Override
     public boolean equals(Object o) {
+
         if(o instanceof Direction targetDirection) {
             return directionName.equals(targetDirection.directionName) && roomName.equals(targetDirection.roomName);
         }

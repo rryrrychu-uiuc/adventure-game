@@ -9,20 +9,24 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Achievement {
 
-    private String itemType;
-    private int minRequiredItems;
-    @SerializedName("message")
-    private String achievementMessage;
+  private String itemType;
+  private int minRequiredItems;
 
-    public int getMinRequiredItems() {
-        return minRequiredItems;
-    }
+  @SerializedName("message")
+  private String achievementMessage;
 
-    public String getItemType() {
-        return itemType;
-    }
+  public int getMinRequiredItems() {
 
-    public String getAchievementMessage() {
-        return achievementMessage;
-    }
+    return minRequiredItems;
+  }
+
+  public String getItemType() {
+
+    return itemType;
+  }
+
+  public String getAchievementMessage() {
+
+    return achievementMessage;
+  }
 }

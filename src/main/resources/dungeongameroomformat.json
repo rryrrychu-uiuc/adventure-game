@@ -38,7 +38,7 @@
     },
     {
       "name": "Three-door Room",
-      "description": "You fell down a deep hole and are now stuck now a room with three dungeon doors.\nYou have no choice but explore and try to find your way out.",
+      "description": "You fell down a deep hole and are now stuck in a room with three dungeon doors.\nYou have no choice but explore and try to find your way out.",
       "directions": [
         {
           "directionName": "forward",
@@ -286,12 +286,12 @@
         },
         {
           "name": "baguette",
-          "description": "The must feed their prisoners well if they get a whole baguette. You save it for later.",
+          "description": "They must feed their prisoners well if they get a whole baguette. You save it for later.",
           "itemType": "foodItem"
         },
         {
           "name": "lettuce",
-          "description": "Lett-us leafve. (Let us leave)",
+          "description": "Lett-us leaf. (Let us leave)",
           "itemType": "foodItem"
         }
       ],
@@ -310,7 +310,7 @@
       "directions": [
         {
           "directionName": "Leave the dungeon",
-          "roomName": "End Room"
+          "roomName": "Finished Game Room"
         }
       ],
       "items": [],
@@ -357,6 +357,14 @@
           "itemType": "keyItem"
         }
       ]
+    },
+    {
+      "name": "Finished Game Room",
+      "description": "You have won the game!",
+      "directions": [],
+      "items": [],
+      "willLockWhenEntered": false,
+      "requiredItemsToUnlockRoom": []
     }
   ],
   "achievements": [
@@ -373,12 +381,12 @@
     {
       "itemType" : "tipItem",
       "minRequiredItems": 3,
-      "message": "You are a Wary Traveller!!! You collected all of the items that give you tip."
+      "message": "You are a Wary Traveller!!! You collected all of the items that give you tips."
     },
     {
       "itemType" : "penItem",
       "minRequiredItems": 1,
-      "message": "You are a Stationary Addict!!! You'll pick up any stationary you find... anywhere."
+      "message": "You are a Stationery Addict!!! You'll pick up any stationery you find... anywhere."
     }
   ]
 }
