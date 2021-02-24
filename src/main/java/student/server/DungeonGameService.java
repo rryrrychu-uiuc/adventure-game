@@ -37,6 +37,10 @@ public class DungeonGameService implements AdventureService {
 
     DungeonGameEngine targetGame = instancesOfGame.get(id);
 
+    if(targetGame == null) {
+      throw new IllegalArgumentException("No game associated with ID");
+    }
+
     return new GameStatus(
         targetGame.hasError(),
         id,
@@ -50,12 +54,21 @@ public class DungeonGameService implements AdventureService {
   @Override
   public boolean destroyGame(int id) {
 
-    instancesOfGame.remove(id);
+    if(instancesOfGame.containsKey(id)) {
+      instancesOfGame.remove(id);
+      return true;
+    }
+
     return false;
   }
 
   @Override
   public void executeCommand(int id, Command command) {
+
+    DungeonGameEngine targetGame = instancesOfGame.get(id);
+    if(targetGame == null) {
+      throw new IllegalArgumentException("No game associated with ID");
+    }
 
     instancesOfGame.get(id).inputCommand(command);
   }
@@ -102,5 +115,9 @@ public class DungeonGameService implements AdventureService {
     }
 
     return possibleCommands;
+  }
+
+  public HashMap<Integer, DungeonGameEngine> getInstancesOfGame() {
+    return instancesOfGame;
   }
 }
